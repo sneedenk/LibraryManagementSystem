@@ -16,6 +16,7 @@ public class SS1
 	 */
 	public static void main(String[] args) 
 	{		
+		System.out.println("test change");
 		Triangle rightSideUpTriangle = new Triangle("1)", 4, true);
 		Triangle upsideDownTriangle = new Triangle("2)", 4, false);
 		Pyramid rightSideUpPyramid = new Pyramid("3)", 4, true);
