@@ -15,8 +15,6 @@ public class ShapeTest {
 	 */
 	public static void main(String[] args) 
 	{
-		System.out.println("This is a test change.");
-		
 		Rectangle rectangle = new Rectangle(4.0, 6.5);
 		rectangle.display();
 		
