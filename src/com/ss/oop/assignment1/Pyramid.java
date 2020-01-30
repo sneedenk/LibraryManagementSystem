@@ -23,6 +23,8 @@ public class Pyramid extends ThreeSides
 	@Override
 	public void printAsterisk() 
 	{
+		System.out.println("Another test change2");
+		
 		Integer width = new Integer((height.intValue() * 2) - 1);
 				
 		if(rightSideUp)
