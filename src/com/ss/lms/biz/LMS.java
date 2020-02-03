@@ -116,7 +116,7 @@ public class LMS {
 					StringBuffer authorName = getUserInput(scan);
 					StringBuffer publisherName = getUserInput(scan);
 					StringBuffer address = getUserInput(scan);
-					updateBook(newBook, title, authorName, publisherName, address)
+					updateBook(newBook, title, authorName, publisherName, address);
 				}
 				//DELETE BOOK BY ID
 				else if(input.get(input.size() - 1) == 4)
@@ -129,7 +129,7 @@ public class LMS {
 				else if(input.get(input.size() - 1) == 5)
 				{
 					save();
-					menuConstraints = driverUIMain();
+					menuConstraints = driverUIBooks();
 
 				}
 				//GO BACK
@@ -141,12 +141,104 @@ public class LMS {
 			//AUTHORS MENU
 			else if(input.get(input.size() - 1) == 2)
 			{
-				driverUIAuthors();
+				menuConstraints = driverUIAuthors();
+				input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
+				//BAD INPUT MENU; BACK TO AUTHORS MENU
+				if(input.get(input.size() - 1) == -1)
+				{
+					menuConstraints = driverUIAuthors();
+				}
+				//CREATE AN AUTHOR MENU
+				else if(input.get(input.size() - 1) == 1)
+				{
+					System.out.println("Enter author: ");
+					Author newAuthor = new Author(new StringBuffer(getUserInput(scan)));
+					authors.put(newAuthor.getAuthorID(), newAuthor);
+				}
+				//READ ALL AUTHORS MENU
+				else if(input.get(input.size() - 1) == 2)
+				{
+					readAuthors();
+					menuConstraints = driverUIAuthors();
+				}
+				//UPDATE AN AUTHOR MENU
+				else if(input.get(input.size() - 1) == 3)
+				{
+					
+				}
+				//DELETE AN AUTHOR MENU
+				else if(input.get(input.size() - 1) == 4)
+				{
+					System.out.println("Enter ID of the author to delete: ");
+					input.push(new Integer(getUserIntegerInput(scan).toString()));
+					deleteAuthor(input.get(input.size() - 1));
+				}
+				//SAVE; BACK TO AUTHORS MENU
+				else if(input.get(input.size() - 1) == 5)
+				{
+					save();
+					menuConstraints = driverUIAuthors();
+				}
+				//BACK TO  MENU
+				else if(input.get(input.size() - 1) == 6)
+				{
+					menuConstraints = driverUIAuthors();
+				}
+				else
+				{
+					
+				}
 			}
 			//PUBLISHERS MENU
 			else if(input.get(input.size() - 1) == 3)
 			{
 				driverUIPublishers();
+				menuConstraints = driverUIPublishers();
+				input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
+				//BAD INPUT MENU; BACK TO PUBLSHERS MENU
+				if(input.get(input.size() - 1) == -1)
+				{
+					menuConstraints = driverUIAuthors();
+				}
+				//CREATE A PUBLSHER MENU
+				else if(input.get(input.size() - 1) == 1)
+				{
+					
+				}
+				//READ ALL PUBLSHERS MENU
+				else if(input.get(input.size() - 1) == 2)
+				{
+					readPublishers();
+					menuConstraints = driverUIPublishers();
+				}
+				//UPDATE A PUBLSHER MENU
+				else if(input.get(input.size() - 1) == 3)
+				{
+					
+				}
+				//DELETE A PUBLSHERS MENU
+				else if(input.get(input.size() - 1) == 4)
+				{
+					System.out.println("Enter ID of publisher to delete: ");
+					input.push(new Integer(getUserIntegerInput(scan).toString()));
+					deletePublisher(input.get(input.size() - 1));
+				}
+				//SAVE; BACK TO PUBLSHERS MENU
+				else if(input.get(input.size() - 1) == 5)
+				{
+					save();
+					menuConstraints = driverUIPublishers();
+				}
+				//BACK TO  MENU
+				else if(input.get(input.size() - 1) == 6)
+				{
+					menuConstraints = driverUIPublishers();
+				}
+				else
+				{
+					menuConstraints = driverUIPublishers();
+				}
+
 			}
 			//SAVE THEN BACK TO MAIN MENU
 			else if(input.get(input.size() - 1) == 4)
@@ -612,24 +704,24 @@ public class LMS {
 	private static StringBuffer getUserInput(Scanner scan) 
 	{
 		StringBuffer input = new StringBuffer(); 
-		while(scan.hasNextLine()) 
-		{ 
-			input.append(scan.hasNextLine());
+		//if(scan.hasNextLine()) 
+		//{ 
+			input.append(scan.nextLine());
 			if(input.length() >= 2)
 			{
 				return input;
 			}
 			System.out.println("Input must be at least 2 characters long");
-		} 
+		//} 
 		return input;
 	}
 	private static Integer getUserIntegerInput(Scanner scan) 
 	{
 		Integer input = -1; 
-		while(scan.hasNextInt()) 
-		{ 
+		//while(scan.hasNextInt()) 
+		//{ 
 			input = scan.nextInt();
-		} 
+		//} 
 		return input;
 	}
 	private static Integer getUserInput(Scanner scan, Integer low, Integer high) 
@@ -651,7 +743,7 @@ public class LMS {
 		System.out.println("Welcome to the Smoothstack Library Management System. Would you like to access books, authors, publishers, save your progress, or exit? (enter an integer 1-5 only)");
 		System.out.println("1) Books");
 		System.out.println("2) Authors");
-		System.out.println("3) Update");
+		System.out.println("3) Publishers");
 		System.out.println("4) Save Updates");
 		System.out.println("5) Exit");
 		Integer[] contraints = {1, 5};	
