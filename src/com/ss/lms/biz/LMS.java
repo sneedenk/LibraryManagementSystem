@@ -90,17 +90,27 @@ public class LMS {
 					System.out.println("Create a book. Enter title: ");
 					inputString.add(new StringBuffer(getUserInput(scan)));
 					System.out.println("Enter author: ");
+					Author newAuthor = new Author(new StringBuffer(getUserInput(scan)));
+					//inputString.add(new StringBuffer(getUserInput(scan)));
+					System.out.println("Enter publisher name: ");
 					inputString.add(new StringBuffer(getUserInput(scan)));
-					System.out.println("Enter publisher: ");
+					System.out.println("Enter publisher address: ");
 					inputString.add(new StringBuffer(getUserInput(scan)));
-					//Book newBook = new Book(inputString.get(0), inputString.get(1), inputString.get(2));
-					//if
+					Publisher newPublisher = new Publisher(inputString.get(0), inputString.get(1));
+					Book newBook = new Book(inputString.get(0), newAuthor.getAuthorID(), newPublisher.getPublisherID());
 					menuConstraints = driverUIBooks();
 				}
-				//READ ALL MENU
+				//READ ALL THEN BACK TO BOOKS MENU
 				else if(input.get(input.size() - 1) == 2)
 				{
 					readBooks();
+					driverUIBooks();
+				}
+				else if(input.get(input.size() - 1) == 3)
+				{
+					System.out.println("Enter ID of book to delete: ");
+
+					//deleteBook();
 				}
 			}
 			//AUTHORS MENU
