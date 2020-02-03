@@ -104,13 +104,14 @@ public class LMS {
 				else if(input.get(input.size() - 1) == 2)
 				{
 					readBooks();
-					driverUIBooks();
+					menuConstraints = driverUIBooks();
 				}
-				else if(input.get(input.size() - 1) == 3)
+				//DELETE BOOK BY ID
+				else if(input.get(input.size() - 1) == 4)
 				{
 					System.out.println("Enter ID of book to delete: ");
-
-					//deleteBook();
+					input.push(new Integer(getUserIntegerInput(scan).toString()));
+					deleteBook(input.get(input.size() - 1));
 				}
 			}
 			//AUTHORS MENU
@@ -595,6 +596,15 @@ public class LMS {
 				return input;
 			}
 			System.out.println("Input must be at least 2 characters long");
+		} 
+		return input;
+	}
+	private static Integer getUserIntegerInput(Scanner scan) 
+	{
+		Integer input = -1; 
+		while(scan.hasNextInt()) 
+		{ 
+			input = scan.nextInt();
 		} 
 		return input;
 	}
