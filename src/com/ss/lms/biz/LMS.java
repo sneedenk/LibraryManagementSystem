@@ -63,7 +63,6 @@ public class LMS {
 			 * getUserInput(scan, menuConstraints[0], menuConstraints[1]);
 			 * System.out.println("New Input: " + newInput); input.push(newInput); }
 			 */			
-			System.out.println("Your input was: " + input.toString());
 			//BAD INPUT; MENU BACK TO MAIN MENU
 			if(input.get(input.size() - 1) == -1)
 			{
@@ -76,7 +75,7 @@ public class LMS {
 			{
 				menuConstraints = driverUIBooks();
 				input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
-				System.out.println("Your input was: " + input.toString());
+				//System.out.println("Your input was: " + input.toString());
 				//BAD INPUT; BACK TO BOOKS MENU
 				if(input.get(input.size() - 1) == -1)
 				{
@@ -106,12 +105,37 @@ public class LMS {
 					readBooks();
 					menuConstraints = driverUIBooks();
 				}
+				//UPDATE BOOK
+				else if(input.get(input.size() - 1) == 3)
+				{
+					System.out.println("Enter the ID of the book to update: ");
+					input.push(new Integer(getUserIntegerInput(scan).toString()));
+					Book newBook = books.get(input.get(input.size() - 1));
+					System.out.println("Enter the new title of the book: ");
+					StringBuffer title = getUserInput(scan);
+					StringBuffer authorName = getUserInput(scan);
+					StringBuffer publisherName = getUserInput(scan);
+					StringBuffer address = getUserInput(scan);
+					updateBook(newBook, title, authorName, publisherName, address)
+				}
 				//DELETE BOOK BY ID
 				else if(input.get(input.size() - 1) == 4)
 				{
 					System.out.println("Enter ID of book to delete: ");
 					input.push(new Integer(getUserIntegerInput(scan).toString()));
 					deleteBook(input.get(input.size() - 1));
+				}
+				//SAVE BOOK
+				else if(input.get(input.size() - 1) == 5)
+				{
+					save();
+					menuConstraints = driverUIMain();
+
+				}
+				//GO BACK
+				else if(input.get(input.size() - 1) == 6)
+				{
+					menuConstraints = driverUIBooks();
 				}
 			}
 			//AUTHORS MENU
