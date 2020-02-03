@@ -9,7 +9,7 @@ package com.ss.lms.biz;
  */
 public class Publisher 
 {
-	private static Integer uniquePublisherID = 0;
+	private static Integer uniquePublisherID = 5;
 	private Integer publisherID;
 	private StringBuffer publisherName;
 	private StringBuffer address;
@@ -69,10 +69,40 @@ public class Publisher
 	}
 	/**
 	 * 
-	 * @return StringBuffer with Publisher class data
+	 * @return StringBuffer representation of Publisher data
 	 */
 	public StringBuffer toStringBuffer() {
 		return new StringBuffer().append(publisherID).append('|').append(publisherName).append('|').append(address);
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((publisherID == null) ? 0 : publisherID.hashCode());
+		result = prime * result + ((publisherName == null) ? 0 : publisherName.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Publisher other = (Publisher) obj;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.toString().equals(other.getAddress().toString()))
+			return false;
+		if (publisherName == null) {
+			if (other.publisherName != null)
+				return false;
+		} else if (!publisherName.toString().equals(other.getPublisherName().toString()))
+			return false;
+		return true;
 	}
 	
 }

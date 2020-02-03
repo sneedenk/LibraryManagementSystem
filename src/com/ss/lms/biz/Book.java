@@ -8,7 +8,7 @@ package com.ss.lms.biz;
  */
 public class Book 
 {
-	private static Integer uniqueBookID = 0;
+	private static Integer uniqueBookID = 5;
 	private Integer bookID;
 	private StringBuffer title;
 	private Integer authorID;
@@ -83,10 +83,49 @@ public class Book
 	public void setPublisher(Integer publisherID) {
 		this.publisherID = publisherID;
 	}
-
+	/**
+	 * 
+	 * @return StringBuffer representation of Book data
+	 */
 	public StringBuffer toStringBuffer() 
 	{
 		return new StringBuffer().append(bookID).append('|').append(title).append('|').append(authorID).append('|').append(publisherID);
 	}
-
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((authorID == null) ? 0 : authorID.hashCode());
+		result = prime * result + ((bookID == null) ? 0 : bookID.hashCode());
+		result = prime * result + ((publisherID == null) ? 0 : publisherID.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Book other = (Book) obj;
+		if (authorID == null) {
+			if (other.authorID != null)
+				return false;
+		} else if (!authorID.equals(other.getAuthorID()))
+			return false;
+		if (publisherID == null) {
+			if (other.publisherID != null)
+				return false;
+		} else if (!publisherID.equals(other.getPublisherID()))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.toString().equals(other.getTitle().toString()))
+			return false;
+		return true;
+	}
+	
 }

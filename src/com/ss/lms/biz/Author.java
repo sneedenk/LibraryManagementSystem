@@ -10,7 +10,7 @@ package com.ss.lms.biz;
  */
 public class Author 
 {
-	private static Integer uniqueAuthorID = 0;
+	private static Integer uniqueAuthorID = 5;
 	private Integer authorID;
 	private StringBuffer authorName;
 	/**
@@ -53,9 +53,36 @@ public class Author
 	public void setAuthorName(StringBuffer authorName) {
 		this.authorName = authorName;
 	}
-
+	/**
+	 * 
+	 * @return StringBuffer representation of Author data
+	 */
 	public StringBuffer toStringBuffer() {
 		return new StringBuffer().append(authorID).append('|').append(authorName);
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((authorID == null) ? 0 : authorID.hashCode());
+		result = prime * result + ((authorName == null) ? 0 : authorName.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Author other = (Author) obj;
+		if (authorName == null) {
+			if (other.authorName != null)
+				return false;
+		} else if (!authorName.toString().equals(other.getAuthorName().toString()))
+			return false;
+		return true;
 	}
 	
 }

@@ -1,3 +1,4 @@
-1|Sidney Sheldon
+1|An Updated Name
 2|Stephen King
 3|Mark Penn
+6|Updated Author Name
