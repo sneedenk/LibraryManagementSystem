@@ -80,7 +80,7 @@ public class Book
 	/**
 	 * @param publisher the publisher to set
 	 */
-	public void setPublisher(Integer publisherID) {
+	public void setPublisherID(Integer publisherID) {
 		this.publisherID = publisherID;
 	}
 	/**
