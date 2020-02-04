@@ -116,8 +116,11 @@ public class LMS {
 					Book newBook = books.get(input.get(input.size() - 1));
 					System.out.println("Enter the new title of the book: ");
 					StringBuffer title = getUserInput(scan);
+					System.out.println("Enter the new author of the book: ");
 					StringBuffer authorName = getUserInput(scan);
+					System.out.println("Enter the new publisher name of the book: ");
 					StringBuffer publisherName = getUserInput(scan);
+					System.out.println("Enter the new publisher address of the book: ");
 					StringBuffer address = getUserInput(scan);
 					updateBook(newBook, title, authorName, publisherName, address);
 				}
@@ -169,7 +172,15 @@ public class LMS {
 				{
 					System.out.println("Enter the ID of the book to update: ");
 					input.push(new Integer(getUserIntegerInput(scan).toString()));
-					deleteAuthor(input.get(input.size() - 1));
+					Integer newID = input.get(input.size() - 1);
+					System.out.println("Enter the new author's name: ");
+					getUserInput(scan);
+					updateAuthor(authors.get(input.get(input.size() - 1)), );
+					
+					Author newAuthor = authors.get(input.get(input.size() - 1));
+					System.out.println("Enter the new title of the book: ");
+					StringBuffer title = getUserInput(scan);
+
 				}
 				//DELETE AN AUTHOR MENU
 				else if(input.get(input.size() - 1) == 4)

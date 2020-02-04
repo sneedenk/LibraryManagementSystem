@@ -1,4 +1,4 @@
 1|HarperCollins Publishers|123 Main St, Washington, DC, USA
 2|Charles Scribner's Sons|456 Maple St, Summit, NJ, USA
 3|Twelve Books|789 Morris Ave, Fairfax, VA, USA
-6|a new title|new pub name
+6|updated publisher|updated pub address
