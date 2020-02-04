@@ -90,13 +90,16 @@ public class LMS {
 					inputString.add(new StringBuffer(getUserInput(scan)));
 					System.out.println("Enter author: ");
 					Author newAuthor = new Author(new StringBuffer(getUserInput(scan)));
+					authors.put(newAuthor.getAuthorID(), newAuthor);
 					//inputString.add(new StringBuffer(getUserInput(scan)));
 					System.out.println("Enter publisher name: ");
 					inputString.add(new StringBuffer(getUserInput(scan)));
 					System.out.println("Enter publisher address: ");
 					inputString.add(new StringBuffer(getUserInput(scan)));
 					Publisher newPublisher = new Publisher(inputString.get(0), inputString.get(1));
+					publishers.put(newPublisher.getPublisherID(), newPublisher);
 					Book newBook = new Book(inputString.get(0), newAuthor.getAuthorID(), newPublisher.getPublisherID());
+					books.put(newBook.getBookID(), newBook);
 					menuConstraints = driverUIBooks();
 				}
 				//READ ALL THEN BACK TO BOOKS MENU
@@ -151,7 +154,7 @@ public class LMS {
 				//CREATE AN AUTHOR MENU
 				else if(input.get(input.size() - 1) == 1)
 				{
-					System.out.println("Enter author: ");
+					System.out.println("Enter author name: ");
 					Author newAuthor = new Author(new StringBuffer(getUserInput(scan)));
 					authors.put(newAuthor.getAuthorID(), newAuthor);
 				}
@@ -164,7 +167,9 @@ public class LMS {
 				//UPDATE AN AUTHOR MENU
 				else if(input.get(input.size() - 1) == 3)
 				{
-					
+					System.out.println("Enter the ID of the book to update: ");
+					input.push(new Integer(getUserIntegerInput(scan).toString()));
+					deleteAuthor(input.get(input.size() - 1));
 				}
 				//DELETE AN AUTHOR MENU
 				else if(input.get(input.size() - 1) == 4)
@@ -186,7 +191,7 @@ public class LMS {
 				}
 				else
 				{
-					
+					menuConstraints = driverUIAuthors();
 				}
 			}
 			//PUBLISHERS MENU
@@ -203,7 +208,13 @@ public class LMS {
 				//CREATE A PUBLSHER MENU
 				else if(input.get(input.size() - 1) == 1)
 				{
-					
+					System.out.println("Enter publisher name: ");
+					inputString.add(new StringBuffer(getUserInput(scan)));
+					//scan.hasNextLine();
+					System.out.println("Enter publisher address: ");
+					inputString.add(new StringBuffer(getUserInput(scan)));
+					Publisher newPublisher = new Publisher(inputString.get(0), inputString.get(1));
+					publishers.put(newPublisher.getPublisherID(), newPublisher);
 				}
 				//READ ALL PUBLSHERS MENU
 				else if(input.get(input.size() - 1) == 2)
@@ -214,7 +225,9 @@ public class LMS {
 				//UPDATE A PUBLSHER MENU
 				else if(input.get(input.size() - 1) == 3)
 				{
-					
+					System.out.println("Enter ID of publisher to update: ");
+					input.push(new Integer(getUserIntegerInput(scan).toString()));
+					//updatePublisher();
 				}
 				//DELETE A PUBLSHERS MENU
 				else if(input.get(input.size() - 1) == 4)
@@ -706,12 +719,14 @@ public class LMS {
 		StringBuffer input = new StringBuffer(); 
 		//if(scan.hasNextLine()) 
 		//{ 
-			input.append(scan.nextLine());
-			if(input.length() >= 2)
-			{
-				return input;
-			}
-			System.out.println("Input must be at least 2 characters long");
+		//scan.nextLine();
+		String inputString = scan.nextLine();
+		input.append(inputString);
+		if(input.length() >= 2)
+		{
+			return input;
+		}
+		System.out.println("Input must be at least 2 characters long");
 		//} 
 		return input;
 	}
@@ -721,6 +736,7 @@ public class LMS {
 		//while(scan.hasNextInt()) 
 		//{ 
 			input = scan.nextInt();
+			scan.nextLine();
 		//} 
 		return input;
 	}
@@ -730,6 +746,7 @@ public class LMS {
 		while(scan.hasNextInt()) 
 		{ 
 			input = scan.nextInt();
+			scan.nextLine();
 			if(input >= low && input <= high)
 			{
 				return input;
