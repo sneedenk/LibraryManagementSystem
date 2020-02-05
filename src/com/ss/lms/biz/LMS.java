@@ -222,40 +222,13 @@ public class LMS {
 	}
 
 	private static Book addBook(StringBuffer title, StringBuffer authorName, StringBuffer publisherName, StringBuffer address) {
-		Author[] authorArray = authors.values().toArray(new Author[0]);
-		Author bookAuthor = null;
-		Integer i = 0;
-		for (i = 0; i < authorArray.length; i++) {
-			if (authorArray[i].getAuthorName().equals(authorName)) {
-				break;
-			}
-		}
-		if (i < authorArray.length) {
-			bookAuthor = authorArray[i];
-		} else // if(i.equals(authorArray.length))
-		{
-			bookAuthor = addAuthor(authorName);
-		}
-		
-		Publisher[] publisherArray = publishers.values().toArray(new Publisher[0]);
-		Publisher bookPublisher;
-		for (i = 0; i < publisherArray.length; i++) {
-			if (publisherArray[i].getPublisherName().equals(publisherName)
-					&& publisherArray[i].getAddress().equals(address)) {
-				break;
-			}
-		}
-		if (i < publisherArray.length) {
-			bookPublisher = publisherArray[i];
-		} else // if(i.equals(publisherArray.length))
-		{
-			bookPublisher = addPublisher(publisherName, address);
-		}
+		Author bookAuthor = addAuthor(authorName);
+		Publisher bookPublisher = addPublisher(publisherName, address);
 		
 		Book newBook = new Book(title, bookAuthor.getAuthorID(), bookPublisher.getPublisherID());
 		Book[] bookArray = books.values().toArray(new Book[0]);
 		Book book = null;
-		for (i = 0; i < bookArray.length; i++) {
+		for (Integer i = 0; i < bookArray.length; i++) {
 			if (bookArray[i].equals(newBook)) {
 				System.out.println("That book already exists");
 				return bookArray[i];
@@ -268,8 +241,8 @@ public class LMS {
 	}
 
 	private static Author addAuthor(StringBuffer authorFullName) {
-		for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {
-			if (currentAuthor.getValue().getAuthorName().equals(authorFullName)) {
+		for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {			
+			if (currentAuthor.getValue().getAuthorName().toString().equals(authorFullName.toString())) {
 				System.out.println("That author already exists");
 				return currentAuthor.getValue();
 			}
@@ -282,8 +255,8 @@ public class LMS {
 
 	private static Publisher addPublisher(StringBuffer publisherName, StringBuffer address) {
 		for (HashMap.Entry<Integer, Publisher> currentPublisher : publishers.entrySet()) {
-			if (currentPublisher.getValue().getPublisherName().equals(publisherName)
-					&& currentPublisher.getValue().getAddress().equals(address)) {
+			if (currentPublisher.getValue().getPublisherName().toString().equals(publisherName.toString())
+					&& currentPublisher.getValue().getAddress().toString().equals(address.toString())) {
 				System.out.println("That publisher already exists");
 				return currentPublisher.getValue();
 			}
@@ -334,66 +307,47 @@ public class LMS {
 
 	}
 
-	private static void updateBook(Book book, StringBuffer title, StringBuffer authorName, StringBuffer publisherName,
-			StringBuffer address) {
+	private static void updateBook(Book book, StringBuffer title, StringBuffer authorName, StringBuffer publisherName, StringBuffer address) 
+	{
+		Author bookAuthor = addAuthor(authorName);
+		Publisher bookPublisher = addPublisher(publisherName, address); 
+		for (HashMap.Entry<Integer, Book> currentBook : books.entrySet()) {
+			if(currentBook.getValue().getTitle().toString().equals(title.toString()) && 
+					currentBook.getValue().getAuthorID() == bookAuthor.getAuthorID() &&
+					currentBook.getValue().getPublisherID() == bookPublisher.getPublisherID()) {
+						System.out.println("That author already exists. Record not updated.");
+						return;
+			}
+		}		
+		
 		book.setTitle(title);
-		Author[] authorArray = authors.values().toArray(new Author[0]);
-		Author bookAuthor = null;
-		Integer i = 0;
-		for (i = 0; i < authorArray.length; i++) {
-			if (authorArray[i].getAuthorName().toString().equals(authorName.toString())) {
-				break;
-			}
-		}
-		if (i < authorArray.length) {
-			System.out.println("That is an existing author");
-			bookAuthor = authorArray[i];
-		} else // if(i.equals(authorArray.length))
-		{
-			System.out.println("New author added");
-			bookAuthor = addAuthor(authorName);
-		}
 		book.setAuthorID(bookAuthor.getAuthorID());
-
-		Publisher[] publisherArray = publishers.values().toArray(new Publisher[0]);
-		Publisher bookPublisher;
-		for (i = 0; i < publisherArray.length; i++) {
-			if (publisherArray[i].getPublisherName().toString().equals(publisherName.toString())
-					&& publisherArray[i].getAddress().toString().equals(address.toString())) {
-				break;
-			}
-		}
-		if (i < publisherArray.length) {
-			System.out.println("That is an existing publisher");
-			bookPublisher = publisherArray[i];
-		} else // if(i.equals(publisherArray.length))
-		{
-			System.out.println("New publisher added");
-			bookPublisher = addPublisher(publisherName, address);
-		}
 		book.setPublisherID(bookPublisher.getPublisherID());
-	}
+		//System.out.println("Book updated"); //printed from the UI driver
+		}
 
 	private static void updateAuthor(Author author, StringBuffer authorName) {
 		for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {
 			if (currentAuthor.getValue().getAuthorName().toString().equals(authorName.toString())) {
-				System.out.println("That author already exists");
+				System.out.println("That author already exists. Record not updated.");
 				return;
 			}
 		}
 		author.setAuthorName(authorName);
+		//System.out.println("Author updated"); //printed from the UI driver
 	}
 
 	private static void updatePublisher(Publisher publisher, StringBuffer publisherName, StringBuffer address) {
 		for (HashMap.Entry<Integer, Publisher> currentPublisher : publishers.entrySet()) {
 			if (currentPublisher.getValue().getPublisherName().toString().equals(publisherName.toString())
 					&& currentPublisher.getValue().getAddress().toString().equals(address.toString())) {
-				System.out.println("That publisher already exists");
+				System.out.println("That publisher already exists. Record not updated.");
 				return;
 			}
 		}
 		publisher.setPublisherName(publisherName);
 		publisher.setAddress(address);
+		//System.out.println("Publisher updated"); //printed from the UI driver
 	}
 
 	private static Book deleteBook(Integer bookID) {
@@ -433,7 +387,6 @@ public class LMS {
 					"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Authors.txt"));
 			String line;
 			while ((line = br.readLine()) != null) {
-				// is this use of StringBuffer[] object oriented?
 				StringBuffer rawAuthorData = new StringBuffer(line);
 				Integer authorID = new Integer(rawAuthorData.substring(0, rawAuthorData.indexOf("|")));
 				StringBuffer authorName = new StringBuffer(rawAuthorData.substring(rawAuthorData.indexOf("|") + 1));
