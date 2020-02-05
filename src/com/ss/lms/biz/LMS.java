@@ -38,21 +38,27 @@ public class LMS {
 	 */
 
 	// private static Scanner scan = new Scanner(System.in);
-	private static HashMap<Integer, Author> authors = new HashMap<Integer, Author>();
-	private static HashMap<Integer, Publisher> publishers = new HashMap<Integer, Publisher>();
-	private static HashMap<Integer, Book> books = new HashMap<Integer, Book>();
-	private static Stack<Integer[]> menuConstraints = new Stack<Integer[]>();
-	private static Stack<Integer> inputInteger = new Stack<Integer>();
-	private static ArrayList<StringBuffer> inputString = new ArrayList<StringBuffer>();
+	private HashMap<Integer, Author> authors = new HashMap<Integer, Author>();
+	private HashMap<Integer, Publisher> publishers = new HashMap<Integer, Publisher>();
+	private HashMap<Integer, Book> books = new HashMap<Integer, Book>();
+	private Stack<Integer[]> menuConstraints = new Stack<Integer[]>();
+	private Stack<Integer> inputInteger = new Stack<Integer>();
+	private ArrayList<StringBuffer> inputString = new ArrayList<StringBuffer>();
 	// private static ArrayList<Integer> inputInteger = new ArrayList<Integer>();
 
+	public LMS()
+	{
+		
+	}
 	public static void main(String[] args) {
-		load();
+		LMS lms = new LMS();
+		
+		lms.load();
 
 		try (Scanner scan = new Scanner(System.in)) {
 			// MAIN MENU
 			// menuConstraints = driverUIMain(scan);
-			driverUIMain(scan);
+			lms.driverUIMain(scan);
 
 			/*
 			 * input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
@@ -197,7 +203,7 @@ public class LMS {
 		// updateBook(books.get(6), new StringBuffer("An Updated Title"), new
 		// StringBuffer("Updated Author Name"), new StringBuffer("Updated Pubisher
 		// Name"), new StringBuffer("This Updated Address, USA"));
-		save();
+		lms.save();
 
 		/*
 		 * listBooks(); System.out.println(); listAuthors(); System.out.println();
@@ -221,7 +227,7 @@ public class LMS {
 		 */
 	}
 
-	private static Book addBook(StringBuffer title, StringBuffer authorName, StringBuffer publisherName, StringBuffer address) {
+	private Book addBook(StringBuffer title, StringBuffer authorName, StringBuffer publisherName, StringBuffer address) {
 		Author bookAuthor = addAuthor(authorName);
 		Publisher bookPublisher = addPublisher(publisherName, address);
 		
@@ -240,7 +246,7 @@ public class LMS {
 		return newBook;
 	}
 
-	private static Author addAuthor(StringBuffer authorFullName) {
+	private Author addAuthor(StringBuffer authorFullName) {
 		for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {			
 			if (currentAuthor.getValue().getAuthorName().toString().equals(authorFullName.toString())) {
 				System.out.println("That author already exists");
@@ -253,7 +259,7 @@ public class LMS {
 		return newAuthor;
 	}
 
-	private static Publisher addPublisher(StringBuffer publisherName, StringBuffer address) {
+	private Publisher addPublisher(StringBuffer publisherName, StringBuffer address) {
 		for (HashMap.Entry<Integer, Publisher> currentPublisher : publishers.entrySet()) {
 			if (currentPublisher.getValue().getPublisherName().toString().equals(publisherName.toString())
 					&& currentPublisher.getValue().getAddress().toString().equals(address.toString())) {
@@ -268,7 +274,7 @@ public class LMS {
 	}
 
 	// THIS IS A GOOD CANDIDATE TO CONVERT TO LAMDAS/STREAMS
-	private static void readBooks() {
+	private void readBooks() {
 		for (HashMap.Entry<Integer, Book> currentBook : books.entrySet()) {
 			Integer authorID = currentBook.getValue().getAuthorID();
 			Integer publisherID = currentBook.getValue().getPublisherID();
@@ -279,7 +285,7 @@ public class LMS {
 	}
 
 	// THIS IS A GOOD CANDIDATE TO CONVERT TO LAMDAS/STREAMS
-	private static void readAuthors() {
+	private void readAuthors() {
 		for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {
 			System.out
 					.println("ID: " + currentAuthor.getKey() + " | Name: " + currentAuthor.getValue().getAuthorName());
@@ -287,7 +293,7 @@ public class LMS {
 	}
 
 	// THIS IS A GOOD CANDIDATE TO CONVERT TO LAMDAS/STREAMS
-	private static void readPublishers() {
+	private void readPublishers() {
 		for (HashMap.Entry<Integer, Publisher> currentPublisher : publishers.entrySet()) {
 			System.out.println(
 					"ID: " + currentPublisher.getKey() + " | Name: " + currentPublisher.getValue().getPublisherName()
@@ -296,7 +302,7 @@ public class LMS {
 	}
 
 	// THIS IS A GOOD CANDIDATE TO CONVERT TO LAMDAS/STREAMS
-	private static void readBooksByAuthor(Integer authorID) {
+	private void readBooksByAuthor(Integer authorID) {
 		for (HashMap.Entry<Integer, Book> currentBook : books.entrySet()) {
 			if (currentBook.getValue().getAuthorID().equals(authorID)) {
 				Integer publisherID = currentBook.getValue().getPublisherID();
@@ -307,7 +313,7 @@ public class LMS {
 
 	}
 
-	private static void updateBook(Book book, StringBuffer title, StringBuffer authorName, StringBuffer publisherName, StringBuffer address) 
+	private void updateBook(Book book, StringBuffer title, StringBuffer authorName, StringBuffer publisherName, StringBuffer address) 
 	{
 		Author bookAuthor = addAuthor(authorName);
 		Publisher bookPublisher = addPublisher(publisherName, address); 
@@ -326,7 +332,7 @@ public class LMS {
 		//System.out.println("Book updated"); //printed from the UI driver
 		}
 
-	private static void updateAuthor(Author author, StringBuffer authorName) {
+	private void updateAuthor(Author author, StringBuffer authorName) {
 		for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {
 			if (currentAuthor.getValue().getAuthorName().toString().equals(authorName.toString())) {
 				System.out.println("That author already exists. Record not updated.");
@@ -337,7 +343,7 @@ public class LMS {
 		//System.out.println("Author updated"); //printed from the UI driver
 	}
 
-	private static void updatePublisher(Publisher publisher, StringBuffer publisherName, StringBuffer address) {
+	private void updatePublisher(Publisher publisher, StringBuffer publisherName, StringBuffer address) {
 		for (HashMap.Entry<Integer, Publisher> currentPublisher : publishers.entrySet()) {
 			if (currentPublisher.getValue().getPublisherName().toString().equals(publisherName.toString())
 					&& currentPublisher.getValue().getAddress().toString().equals(address.toString())) {
@@ -350,12 +356,12 @@ public class LMS {
 		//System.out.println("Publisher updated"); //printed from the UI driver
 	}
 
-	private static Book deleteBook(Integer bookID) {
+	private Book deleteBook(Integer bookID) {
 		return books.remove(bookID);
 	}
 
 	// THIS IS A GOOD CANDIDATE TO CONVERT TO LAMDAS/STREAMS
-	private static Author deleteAuthor(Integer authorID) {
+	private Author deleteAuthor(Integer authorID) {
 		Collection<Book> bookValues = books.values();
 		Iterator<Book> bookIterator = bookValues.iterator();
 		while (bookIterator.hasNext()) {
@@ -368,7 +374,7 @@ public class LMS {
 	}
 
 	// THIS IS A GOOD CANDIDATE TO CONVERT TO LAMDAS/STREAMS
-	private static Publisher deletePublisher(Integer publisherID) {
+	private Publisher deletePublisher(Integer publisherID) {
 		Collection<Book> bookValues = books.values();
 		Iterator<Book> bookIterator = bookValues.iterator();
 		while (bookIterator.hasNext()) {
@@ -380,7 +386,7 @@ public class LMS {
 		return publishers.remove(publisherID);
 	}
 
-	private static void load() {
+	private void load() {
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(
@@ -449,7 +455,7 @@ public class LMS {
 	/**
 	 * save data to files
 	 */
-	private static void save() {
+	private void save() {
 		BufferedWriter bw = null;
 		try {
 			// bw = new BufferedWriter(new
@@ -502,12 +508,12 @@ public class LMS {
 	/**
 	 * save data to files then exit without error
 	 */
-	private static void exit() {
+	private void exit() {
 		// save(); //give the option to exit without saving
 		System.exit(0);
 	}
 
-	private static StringBuffer getUserInput(Scanner scan) {
+	private StringBuffer getUserInput(Scanner scan) {
 		StringBuffer input = new StringBuffer();
 		// if(scan.hasNextLine())
 		// {
@@ -522,7 +528,7 @@ public class LMS {
 		return input;
 	}
 
-	private static Integer getUserIntegerInput(Scanner scan, HashMap elements) {
+	private Integer getUserIntegerInput(Scanner scan, HashMap elements) {
 		Integer input = -1;
 		if(!scan.hasNextInt())
 		{
@@ -542,7 +548,7 @@ public class LMS {
 		
 	}
 
-	private static Integer getUserIntegerInput(Scanner scan, Stack<Integer[]> menuConstraints) {
+	private Integer getUserIntegerInput(Scanner scan, Stack<Integer[]> menuConstraints) {
 		Integer input = -1;
 		if (!scan.hasNextInt()) {
 			scan.nextLine();
@@ -559,7 +565,7 @@ public class LMS {
 	}
 
 	// MAIN MENU
-	private static void driverUIMain(Scanner scan) {
+	private void driverUIMain(Scanner scan) {
 		System.out.println(
 				"Welcome to the Smoothstack Library Management System. Would you like to access books, authors, publishers, save your progress, or exit? (enter an integer 1-5 only)");
 		System.out.println("1) Books");
@@ -625,7 +631,7 @@ public class LMS {
 		// return constraints;
 	}
 
-	private static void driverUIAuthors(Scanner scan) {
+	private void driverUIAuthors(Scanner scan) {
 		System.out.println(
 				"Welcome to authors. Would you like to create, read, update, delete, save your progress, or go back? (enter an integer 1-6 only)");
 		System.out.println("1) Create Author");
@@ -667,7 +673,7 @@ public class LMS {
 		// return contraints;
 	}
 
-	private static void driverUIBooks(Scanner scan) {
+	private void driverUIBooks(Scanner scan) {
 		System.out.println(
 				"Welcome to books. Would you like to create, read, update, delete, save your progress, or go back? (enter an integer 1-6 only)");
 		System.out.println("1) Create Book");
@@ -710,7 +716,7 @@ public class LMS {
 		// return constraints;
 	}
 
-	private static void driverUIPublishers(Scanner scan) {
+	private void driverUIPublishers(Scanner scan) {
 		System.out.println(
 				"Welcome to publishers. Would you like to create, read, update, delete, save your progress, or go back? (enter an integer 1-6 only)");
 		System.out.println("1) Create Publisher");
@@ -753,7 +759,7 @@ public class LMS {
 		//return contraints;
 	}
 
-	private static void driverUIBooksCreate(Scanner scan) {
+	private void driverUIBooksCreate(Scanner scan) {
 		System.out.println("Create a book. Enter title: ");
 		// inputString.add(getUserInput(scan));
 		StringBuffer newTitle = getUserInput(scan);
@@ -772,14 +778,14 @@ public class LMS {
 		driverUIBooks(scan);
 	}
 	
-	private static void driverUIAuthorsCreate(Scanner scan) {
+	private void driverUIAuthorsCreate(Scanner scan) {
 		System.out.println("Create an author. Enter author name: ");
 		StringBuffer newAuthorName = getUserInput(scan);
 		Author newAuthor = addAuthor(newAuthorName);
 		driverUIAuthors(scan);
 	}
 	
-	private static void driverUIPublishersCreate(Scanner scan) {
+	private void driverUIPublishersCreate(Scanner scan) {
 		System.out.println("Create a publisher. Enter publisher name: ");
 		StringBuffer newPublisherName = getUserInput(scan);
 		System.out.println("Enter publisher address: ");
@@ -788,19 +794,19 @@ public class LMS {
 		driverUIBooks(scan);
 	}
 
-	private static void driverUIBooksRead(Scanner scan) {
+	private void driverUIBooksRead(Scanner scan) {
 		readBooks();
 		driverUIBooks(scan);
 	}
-	private static void driverUIAuthorsRead(Scanner scan) {
+	private void driverUIAuthorsRead(Scanner scan) {
 		readAuthors();
 		driverUIAuthors(scan);
 	}
-	private static void driverUIPublishersRead(Scanner scan) {
+	private void driverUIPublishersRead(Scanner scan) {
 		readPublishers();
 		driverUIPublishers(scan);
 	}
-	private static void driverUIBooksUpdate(Scanner scan) {
+	private void driverUIBooksUpdate(Scanner scan) {
 		System.out.println("Enter the ID of the book to update: ");
 		// input.push(new Integer(getUserIntegerInput(scan).toString()));
 		Integer bookID = getUserIntegerInput(scan, books);
@@ -822,7 +828,7 @@ public class LMS {
 		System.out.println("Book updated");
 		driverUIBooks(scan);
 	}
-	private static void driverUIAuthorsUpdate(Scanner scan) {
+	private void driverUIAuthorsUpdate(Scanner scan) {
 		System.out.println("Enter the ID of the author to update: ");
 		// input.push(new Integer(getUserIntegerInput(scan).toString()));
 		Integer authorID = getUserIntegerInput(scan, authors);
@@ -838,7 +844,7 @@ public class LMS {
 		System.out.println("Author updated");
 		driverUIAuthors(scan);
 	}
-	private static void driverUIPublishersUpdate(Scanner scan) {
+	private void driverUIPublishersUpdate(Scanner scan) {
 		System.out.println("Enter the ID of the publisher to update: ");
 		// input.push(new Integer(getUserIntegerInput(scan).toString()));
 		Integer publisherID = getUserIntegerInput(scan, publishers);
@@ -857,7 +863,7 @@ public class LMS {
 		driverUIPublishers(scan);
 	}
 
-	private static void driverUIBooksDelete(Scanner scan) {
+	private void driverUIBooksDelete(Scanner scan) {
 		System.out.println("Enter ID of book to delete: ");
 		Integer bookID = getUserIntegerInput(scan, books);
 		// input.push(new Integer(getUserIntegerInput(scan).toString()));
@@ -868,7 +874,7 @@ public class LMS {
 		}
 		driverUIBooks(scan);
 	}
-	private static void driverUIAuthorsDelete(Scanner scan) {
+	private void driverUIAuthorsDelete(Scanner scan) {
 		System.out.println("Enter ID of Authors to delete: ");
 		Integer authorsID = getUserIntegerInput(scan, authors);
 		// input.push(new Integer(getUserIntegerInput(scan).toString()));
@@ -879,7 +885,7 @@ public class LMS {
 		}
 		driverUIAuthors(scan);
 	}
-	private static void driverUIPublishersDelete(Scanner scan) {
+	private void driverUIPublishersDelete(Scanner scan) {
 		System.out.println("Enter ID of publisher to delete: ");
 		Integer publisherID = getUserIntegerInput(scan, publishers);
 		// input.push(new Integer(getUserIntegerInput(scan).toString()));
@@ -891,7 +897,7 @@ public class LMS {
 		driverUIPublishers(scan);
 	}
 
-	private static void mainMenu() {
+	private void mainMenu() {
 		System.out.println(
 				"Welcome to the Smoothstack Library Management System. Which category of user are you (enter number only)");
 		System.out.println();
@@ -900,12 +906,12 @@ public class LMS {
 		System.out.println("3) Borrower");
 	}
 
-	public static void lib1() {
+	public void lib1() {
 		System.out.println("1) Enter the branch you manage");
 		System.out.println("2) Quit to previous");
 	}
 
-	public static void lib2() {
+	public void lib2() {
 		System.out.println("1) University Library, Boston");
 		System.out.println("2) State Library, New York");
 		System.out.println("3) Federal Library, Washington DC");
@@ -913,19 +919,19 @@ public class LMS {
 		System.out.println("5) Quit to previous");
 	}
 
-	public static void lib3() {
+	public void lib3() {
 		System.out.println("1) Update the details of the Library");
 		System.out.println("2) Quit to previous");
 	}
 
-	public static void lib4() {
+	public void lib4() {
 		System.out.print(
 				"You have chosen to update the Branch with Branch Id: X and Branch Name: ABCD. Enter ‘quit’ at any prompt to cancel operation.");
 		System.out.print("Please enter new branch name or enter N/A for no change:");
 		System.out.print("Please enter new branch address or enter N/A for no change:");
 	}
 
-	public static void admin1() {
+	public void admin1() {
 		System.out.println("1) Add/Update/Delete/Read Book and Author");
 		System.out.println("2) Add/Update/Delete/Read Genres");
 		System.out.println("3) Add/Update/Delete/Read Publishers");
@@ -933,17 +939,17 @@ public class LMS {
 		System.out.println("5) Add/Update/Delete/Read Borrowers");
 	}
 
-	public static void borr0() {
+	public void borr0() {
 		System.out.println("Enter the your Card Number:");
 	}
 
-	public static void borr1() {
+	public void borr1() {
 		System.out.println("1) Check out a book");
 		System.out.println("2) Return a Book");
 		System.out.println("3) Quit to Previous");
 	}
 
-	public static void borr2() {
+	public void borr2() {
 		System.out.println("Pick the Branch you want to check out from:");
 		System.out.println("1) University Library, Boston");
 		System.out.println("2) State Library, New York");
@@ -952,7 +958,7 @@ public class LMS {
 		System.out.println("5) Quit to previous");
 	}
 
-	public static void borr3() {
+	public void borr3() {
 		System.out.println("1) Lost Tribe by Sidney Sheldon");
 		System.out.println("2) The Haunting by Stepehen King");
 		System.out.println("3) Microtrends by Mark Penn");
