@@ -1,6 +1,6 @@
 1|Sidney Sheldon
 2|Stephen King
 3|Mark Penn
-6|That Author
-7|That Author
+6|is
+7|is
 8|Sidney Sheldon

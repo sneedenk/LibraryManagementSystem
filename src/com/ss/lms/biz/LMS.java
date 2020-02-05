@@ -172,11 +172,15 @@ public class LMS {
 			 * menuConstraints[0] + " and " + menuConstraints[1] +
 			 * " are allowed. Try input again."); input.pop(); menuConstraints =
 			 * driverUIMain(); }
-			 */ } catch (InputMismatchException ime) {
-			System.err.println("Please try again with legal input.");
-		} catch (Exception e) {
-			System.err.println("Something went wrong getting user input");
-		}
+			 */ 
+			} catch (InputMismatchException ime) {
+				System.err.println("Please run it again with legal input.");
+				//driverUIMain(scan);
+			} catch (Exception e) {
+				System.err.println("Something went wrong getting user input");
+				e.printStackTrace(System.err);		
+				//driverUIMain(scan);
+			}
 
 		// System.out.println("Your input was: " + input.toString());
 
@@ -232,7 +236,7 @@ public class LMS {
 		{
 			bookAuthor = addAuthor(authorName);
 		}
-
+		
 		Publisher[] publisherArray = publishers.values().toArray(new Publisher[0]);
 		Publisher bookPublisher;
 		for (i = 0; i < publisherArray.length; i++) {
@@ -247,11 +251,11 @@ public class LMS {
 		{
 			bookPublisher = addPublisher(publisherName, address);
 		}
-
+		
 		Book newBook = new Book(title, bookAuthor.getAuthorID(), bookPublisher.getPublisherID());
 		Book[] bookArray = books.values().toArray(new Book[0]);
 		Book book = null;
-		for (i = 0; i < authorArray.length; i++) {
+		for (i = 0; i < bookArray.length; i++) {
 			if (bookArray[i].equals(newBook)) {
 				System.out.println("That book already exists");
 				return bookArray[i];
@@ -259,6 +263,7 @@ public class LMS {
 		}
 
 		books.put(newBook.getBookID(), newBook);
+		System.out.println("Book added");
 		return newBook;
 	}
 
@@ -271,6 +276,7 @@ public class LMS {
 		}
 		Author newAuthor = new Author(authorFullName);
 		authors.put(newAuthor.getAuthorID(), newAuthor);
+		System.out.println("Author added");
 		return newAuthor;
 	}
 
@@ -284,6 +290,7 @@ public class LMS {
 		}
 		Publisher newPublisher = new Publisher(publisherName, address);
 		publishers.put(newPublisher.getPublisherID(), newPublisher);
+		System.out.println("Publisher added");
 		return newPublisher;
 	}
 
@@ -394,7 +401,7 @@ public class LMS {
 	}
 
 	// THIS IS A GOOD CANDIDATE TO CONVERT TO LAMDAS/STREAMS
-	private static void deleteAuthor(Integer authorID) {
+	private static Author deleteAuthor(Integer authorID) {
 		Collection<Book> bookValues = books.values();
 		Iterator<Book> bookIterator = bookValues.iterator();
 		while (bookIterator.hasNext()) {
@@ -403,11 +410,11 @@ public class LMS {
 				bookIterator.remove();
 			}
 		}
-		authors.remove(authorID);
+		return authors.remove(authorID);
 	}
 
 	// THIS IS A GOOD CANDIDATE TO CONVERT TO LAMDAS/STREAMS
-	private static void deletePublisher(Integer publisherID) {
+	private static Publisher deletePublisher(Integer publisherID) {
 		Collection<Book> bookValues = books.values();
 		Iterator<Book> bookIterator = bookValues.iterator();
 		while (bookIterator.hasNext()) {
@@ -416,7 +423,7 @@ public class LMS {
 				bookIterator.remove();
 			}
 		}
-		publishers.remove(publisherID);
+		return publishers.remove(publisherID);
 	}
 
 	private static void load() {
@@ -532,7 +539,7 @@ public class LMS {
 				try {
 					bw.close();
 				} catch (IOException ioe) {
-					System.err.println("Failed to close BufferedReader");
+					System.err.println("Failed to close BufferedWriter");
 				}
 			}
 
@@ -562,28 +569,40 @@ public class LMS {
 		return input;
 	}
 
-	private static Integer getUserIntegerInput(Scanner scan) {
+	private static Integer getUserIntegerInput(Scanner scan, HashMap elements) {
 		Integer input = -1;
-		// while(scan.hasNextInt())
-		// {
+		if(!scan.hasNextInt())
+		{
+			scan.nextLine();
+			return -1;
+		}
 		input = scan.nextInt();
-		scan.nextLine();
-		// }
-		return input;
+		scan.nextLine();			
+		if(elements.containsKey(input))
+		{
+			return input;
+		}
+		else
+		{
+			return -1;
+		}
+		
 	}
 
 	private static Integer getUserIntegerInput(Scanner scan, Stack<Integer[]> menuConstraints) {
 		Integer input = -1;
-		while (scan.hasNextInt()) {
-			input = scan.nextInt();
+		if (!scan.hasNextInt()) {
 			scan.nextLine();
-			Integer low = menuConstraints.get(menuConstraints.size() - 1)[0];
-			Integer high = menuConstraints.get(menuConstraints.size() - 1)[1];
-			if (input >= low && input <= high) {
-				return input;
-			}
+			return -1;
 		}
-		return input;
+		input = scan.nextInt();
+		scan.nextLine();
+		Integer low = menuConstraints.get(menuConstraints.size() - 1)[0];
+		Integer high = menuConstraints.get(menuConstraints.size() - 1)[1];
+		if (input >= low && input <= high) {
+			return input;
+		}
+		return -1;
 	}
 
 	// MAIN MENU
@@ -621,9 +640,33 @@ public class LMS {
 			driverUIBooks(scan);
 			// CREATE A BOOK MENU
 		} else if (currentInputInteger == 2) {
+			driverUIAuthors(scan);
 			// menuConstraints = driverUIAuthors();
 			// input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
 			// BAD INPUT MENU; BACK TO AUTHORS MENU
+		}
+		else if (currentInputInteger == 3) {
+			driverUIPublishers(scan);
+			// menuConstraints = driverUIAuthors();
+			// input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
+			// BAD INPUT MENU; BACK TO AUTHORS MENU
+		}
+		else if (currentInputInteger == 4) {
+			save();
+			driverUIMain(scan);
+			// menuConstraints = driverUIAuthors();
+			// input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
+			// BAD INPUT MENU; BACK TO AUTHORS MENU
+		}
+		else if (currentInputInteger == 5) {
+			exit();
+			// menuConstraints = driverUIAuthors();
+			// input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
+			// BAD INPUT MENU; BACK TO AUTHORS MENU
+		}
+		else {
+			System.out.println("Illegal input. Try again.");
+			driverUIMain(scan);
 		}
 
 		// return constraints;
@@ -649,7 +692,7 @@ public class LMS {
 			inputInteger.pop();
 			System.out.println("Only integers between " + currentMenuConstraints[0] + " and "
 					+ currentMenuConstraints[1] + " are allowed. Try input again.");
-			driverUIBooks(scan);
+			driverUIAuthors(scan);
 		} else if (currentInputInteger == 1) {
 			driverUIAuthorsCreate(scan);
 		} else if (currentInputInteger == 2) {
@@ -659,6 +702,7 @@ public class LMS {
 		} else if (currentInputInteger == 4) {
 			driverUIAuthorsDelete(scan);
 		} else if (currentInputInteger == 5) {
+			//ADD SAVEAUTHOR() METHOD
 			save();
 			driverUIAuthors(scan);
 		} else if (currentInputInteger == 6) {
@@ -713,7 +757,7 @@ public class LMS {
 		// return constraints;
 	}
 
-	private static Integer[] driverUIPublishers(Scanner scan) {
+	private static void driverUIPublishers(Scanner scan) {
 		System.out.println(
 				"Welcome to publishers. Would you like to create, read, update, delete, save your progress, or go back? (enter an integer 1-6 only)");
 		System.out.println("1) Create Publisher");
@@ -722,8 +766,38 @@ public class LMS {
 		System.out.println("4) Delete  Publisher");
 		System.out.println("5) Save Updates");
 		System.out.println("6) Go back");
-		Integer[] contraints = { 1, 6 };
-		return contraints;
+		Integer[] constraints = { 1, 6 };
+		
+		menuConstraints.push(constraints);
+		Integer currentInputInteger = getUserIntegerInput(scan, menuConstraints);
+		inputInteger.push(currentInputInteger);
+
+		// System.out.println("Your input was: " + input.toString());
+		// BAD INPUT; BACK TO BOOKS MENU
+		if (currentInputInteger == -1) {
+			Integer currentMenuConstraints[] = menuConstraints.pop();
+			inputInteger.pop();
+			System.out.println("Only integers between " + currentMenuConstraints[0] + " and "
+					+ currentMenuConstraints[1] + " are allowed. Try input again.");
+			driverUIPublishers(scan);
+		} else if (currentInputInteger == 1) {
+			driverUIPublishersCreate(scan);
+		} else if (currentInputInteger == 2) {
+			driverUIPublishersRead(scan);
+		} else if (currentInputInteger == 3) {
+			driverUIPublishersUpdate(scan);
+		} else if (currentInputInteger == 4) {
+			driverUIPublishersDelete(scan);
+		} else if (currentInputInteger == 5) {
+			save();
+			driverUIPublishers(scan);
+		} else if (currentInputInteger == 6) {
+			driverUIMain(scan);
+		} else {
+			driverUIPublishers(scan);
+		}
+
+		//return contraints;
 	}
 
 	private static void driverUIBooksCreate(Scanner scan) {
@@ -742,7 +816,6 @@ public class LMS {
 		StringBuffer newPublisherAddress = getUserInput(scan);
 		Publisher newPublisher = addPublisher(newPublisherName, newPublisherAddress);
 		Book newBook = addBook(newTitle, newAuthor.getAuthorName(), newPublisher.getPublisherName(), newPublisher.getAddress());
-		System.out.println("Book added");
 		driverUIBooks(scan);
 	}
 	
@@ -750,7 +823,6 @@ public class LMS {
 		System.out.println("Create an author. Enter author name: ");
 		StringBuffer newAuthorName = getUserInput(scan);
 		Author newAuthor = addAuthor(newAuthorName);
-		System.out.println("Author added");
 		driverUIAuthors(scan);
 	}
 	
@@ -760,7 +832,6 @@ public class LMS {
 		System.out.println("Enter publisher address: ");
 		StringBuffer newPublisherAddress = getUserInput(scan);
 		Publisher newPublisher = addPublisher(newPublisherName, newPublisherAddress);
-		System.out.println("publisher added");
 		driverUIBooks(scan);
 	}
 
@@ -768,35 +839,103 @@ public class LMS {
 		readBooks();
 		driverUIBooks(scan);
 	}
-
+	private static void driverUIAuthorsRead(Scanner scan) {
+		readAuthors();
+		driverUIAuthors(scan);
+	}
+	private static void driverUIPublishersRead(Scanner scan) {
+		readPublishers();
+		driverUIPublishers(scan);
+	}
 	private static void driverUIBooksUpdate(Scanner scan) {
 		System.out.println("Enter the ID of the book to update: ");
 		// input.push(new Integer(getUserIntegerInput(scan).toString()));
-		Integer bookID = getUserIntegerInput(scan);
-		Book newBook = books.get(bookID);
+		Integer bookID = getUserIntegerInput(scan, books);
+		if(bookID == -1)
+		{
+			System.out.println("Must enter a valid book ID. Read all books to list valid book IDs.");
+			driverUIBooks(scan);
+		}
+		Book bookToUpdate = books.get(bookID);
 		System.out.println("Enter the new title of the book: ");
-		StringBuffer title = getUserInput(scan);
+		StringBuffer newTitle = getUserInput(scan);
 		System.out.println("Enter the new author of the book: ");
-		StringBuffer authorName = getUserInput(scan);
+		StringBuffer newAuthorName = getUserInput(scan);
 		System.out.println("Enter the new publisher name of the book: ");
-		StringBuffer publisherName = getUserInput(scan);
+		StringBuffer newPublisherName = getUserInput(scan);
 		System.out.println("Enter the new publisher address of the book: ");
-		StringBuffer address = getUserInput(scan);
-		updateBook(newBook, title, authorName, publisherName, address);
+		StringBuffer newAddress = getUserInput(scan);
+		updateBook(bookToUpdate, newTitle, newAuthorName, newPublisherName, newAddress);
 		System.out.println("Book updated");
 		driverUIBooks(scan);
+	}
+	private static void driverUIAuthorsUpdate(Scanner scan) {
+		System.out.println("Enter the ID of the author to update: ");
+		// input.push(new Integer(getUserIntegerInput(scan).toString()));
+		Integer authorID = getUserIntegerInput(scan, authors);
+		if(authorID == -1)
+		{
+			System.out.println("Must enter a valid author ID. Read all authors to list valid author IDs.");
+			driverUIAuthors(scan);
+		}
+		Author authorToUpdate = authors.get(authorID);
+		System.out.println("Enter the new author name: ");
+		StringBuffer newAuthorName = getUserInput(scan);
+		updateAuthor(authorToUpdate, newAuthorName);
+		System.out.println("Author updated");
+		driverUIAuthors(scan);
+	}
+	private static void driverUIPublishersUpdate(Scanner scan) {
+		System.out.println("Enter the ID of the publisher to update: ");
+		// input.push(new Integer(getUserIntegerInput(scan).toString()));
+		Integer publisherID = getUserIntegerInput(scan, publishers);
+		if(publisherID == -1)
+		{
+			System.out.println("Must enter a valid publisher ID. Read all publishers to list valid publisher IDs.");
+			driverUIPublishers(scan);
+		}
+		Publisher publisherToUpdate = publishers.get(publisherID);
+		System.out.println("Enter the new publisher name: ");
+		StringBuffer newPublisherName = getUserInput(scan);
+		System.out.println("Enter the new publisher address: ");
+		StringBuffer newPublisherAddress = getUserInput(scan);
+		updatePublisher(publisherToUpdate, newPublisherName, newPublisherAddress);
+		System.out.println("Publisher updated");
+		driverUIPublishers(scan);
 	}
 
 	private static void driverUIBooksDelete(Scanner scan) {
 		System.out.println("Enter ID of book to delete: ");
-		Integer bookID = getUserIntegerInput(scan);
+		Integer bookID = getUserIntegerInput(scan, books);
 		// input.push(new Integer(getUserIntegerInput(scan).toString()));
 		if (deleteBook(bookID) == null) {
-			System.out.println("Invalid book ID");
+			System.out.println("Invalid book ID. Read All Books for a list of valid book IDs.");
 		} else {
 			System.out.println("Book deleted");
 		}
 		driverUIBooks(scan);
+	}
+	private static void driverUIAuthorsDelete(Scanner scan) {
+		System.out.println("Enter ID of Authors to delete: ");
+		Integer authorsID = getUserIntegerInput(scan, authors);
+		// input.push(new Integer(getUserIntegerInput(scan).toString()));
+		if (deleteAuthor(authorsID) == null) {
+			System.out.println("Invalid publisher ID. Read All Authors for a list of valid author IDs.");
+		} else {
+			System.out.println("Publisher deleted");
+		}
+		driverUIAuthors(scan);
+	}
+	private static void driverUIPublishersDelete(Scanner scan) {
+		System.out.println("Enter ID of publisher to delete: ");
+		Integer publisherID = getUserIntegerInput(scan, publishers);
+		// input.push(new Integer(getUserIntegerInput(scan).toString()));
+		if (deletePublisher(publisherID) == null) {
+			System.out.println("Invalid publisher ID. Read All Publishers for a list of valid publisher IDs.");
+		} else {
+			System.out.println("Publisher deleted");
+		}
+		driverUIPublishers(scan);
 	}
 
 	private static void mainMenu() {

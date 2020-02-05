@@ -1,6 +1,5 @@
 1|Rage of Angels|1|1
 2|Dreamcatcher|2|2
 3|Microtrends|3|3
-6|A New Book Title|6|6
-7|A New Book Title|7|7
+7|this|7|7
 8|Rage of Angels|8|8
