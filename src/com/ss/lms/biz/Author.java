@@ -13,14 +13,21 @@ public class Author
 	private static Integer uniqueAuthorID = 0;
 	private Integer authorID;
 	private StringBuffer authorName;
+
 	/**
-	 * 
+	 * general use constructor
+	 * @param authorName
 	 */
 	public Author(StringBuffer authorName) 
 	{
 		this.authorName = authorName;
 		this.authorID = getUniqueAuthorID();
 	}
+	/**
+	 * only intended for use from LMS.load()
+	 * @param authorID
+	 * @param authorName
+	 */
 	public Author(Integer authorID, StringBuffer authorName) 
 	{
 		this.authorID = authorID;

@@ -13,8 +13,12 @@ public class Book
 	private StringBuffer title;
 	private Integer authorID;
 	private Integer publisherID;
+	
 	/**
-	 * 
+	 * general use constructor
+	 * @param title
+	 * @param author
+	 * @param publisher
 	 */
 	public Book(StringBuffer title, Integer author, Integer publisher) 
 	{
@@ -23,6 +27,13 @@ public class Book
 		this.publisherID = publisher;
 		this.bookID = getUniqueBookID();
 	}
+	/**
+	 * only intended for use from LMS.load()
+	 * @param bookID
+	 * @param title
+	 * @param author
+	 * @param publisher
+	 */
 	public Book(Integer bookID, StringBuffer title, Integer author, Integer publisher) 
 	{
 		this.bookID = bookID;

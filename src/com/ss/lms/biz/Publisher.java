@@ -13,8 +13,11 @@ public class Publisher
 	private Integer publisherID;
 	private StringBuffer publisherName;
 	private StringBuffer address;
+
 	/**
-	 * 
+	 * general use constructor
+	 * @param publisherName
+	 * @param address
 	 */
 	public Publisher(StringBuffer publisherName, StringBuffer address) 
 	{
@@ -22,6 +25,12 @@ public class Publisher
 		this.address = address;
 		this.publisherID = getUniquePublisherID();
 	}
+	/**
+	 * only intended for use from LMS.load()
+	 * @param publisherID
+	 * @param publisherName
+	 * @param address
+	 */
 	public Publisher(Integer publisherID, StringBuffer publisherName, StringBuffer address) 
 	{
 		this.publisherID = publisherID;
