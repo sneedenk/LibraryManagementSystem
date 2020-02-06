@@ -3,9 +3,7 @@
  */
 package com.ss.lms.biz;
 
-//import java.io.Serializable;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.Stack;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,13 +17,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.StringBuffer;
-
-/**
- * TODO:	each class loads the text file into JVM at start (into maps by ID)
- * 			any reads/updates/deletes are then based from there
- * 			upon exit or upon explicit user save, modify the save file (remember the user will never see it)
- * 			
- */
 
 /**
  * @author Kyle Sneeden
@@ -43,142 +34,19 @@ public class LMS {
 	private HashMap<Integer, Book> books = new HashMap<Integer, Book>();
 	private Stack<Integer[]> menuConstraints = new Stack<Integer[]>();
 	private Stack<Integer> inputInteger = new Stack<Integer>();
-	private ArrayList<StringBuffer> inputString = new ArrayList<StringBuffer>();
-	// private static ArrayList<Integer> inputInteger = new ArrayList<Integer>();
-
+	
 	public LMS()
 	{
 		
 	}
 	public static void main(String[] args) {
 		LMS lms = new LMS();
-		
 		lms.load();
 
 		try (Scanner scan = new Scanner(System.in)) {
 			// MAIN MENU
 			// menuConstraints = driverUIMain(scan);
 			lms.driverUIMain(scan);
-
-			/*
-			 * input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
-			 * 
-			 * while(input.get(input.size() - 1) == -1) { System.out.println("Last Input: "
-			 * + input.get(input.size() - 1).toString()); input.pop(); Integer newInput =
-			 * getUserInput(scan, menuConstraints[0], menuConstraints[1]);
-			 * System.out.println("New Input: " + newInput); input.push(newInput); }
-			 * 
-			 * //BAD INPUT; MENU BACK TO MAIN MENU if(input.get(input.size() - 1) == -1) {
-			 * System.out.println("Only integers between " + menuConstraints[0] + " and " +
-			 * menuConstraints[1] + " are allowed. Try input again."); input.pop();
-			 * menuConstraints = driverUIMain(scan); } //BOOKS MENU else
-			 * if(input.get(input.size() - 1) == 1) { menuConstraints = driverUIBooks();
-			 * input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
-			 * //System.out.println("Your input was: " + input.toString()); //BAD INPUT;
-			 * BACK TO BOOKS MENU if(input.get(input.size() - 1) == -1) {
-			 * System.out.println("Only integers between " + menuConstraints[0] + " and " +
-			 * menuConstraints[1] + " are allowed. Try input again."); input.pop();
-			 * menuConstraints = driverUIBooks(); } //CREATE A BOOK MENU else
-			 * if(input.get(input.size() - 1) == 1) {
-			 * System.out.println("Create a book. Enter title: "); inputString.add(new
-			 * StringBuffer(getUserInput(scan))); System.out.println("Enter author: ");
-			 * Author newAuthor = new Author(new StringBuffer(getUserInput(scan)));
-			 * authors.put(newAuthor.getAuthorID(), newAuthor); //inputString.add(new
-			 * StringBuffer(getUserInput(scan)));
-			 * System.out.println("Enter publisher name: "); inputString.add(new
-			 * StringBuffer(getUserInput(scan)));
-			 * System.out.println("Enter publisher address: "); inputString.add(new
-			 * StringBuffer(getUserInput(scan))); Publisher newPublisher = new
-			 * Publisher(inputString.get(0), inputString.get(1));
-			 * publishers.put(newPublisher.getPublisherID(), newPublisher); Book newBook =
-			 * new Book(inputString.get(0), newAuthor.getAuthorID(),
-			 * newPublisher.getPublisherID()); books.put(newBook.getBookID(), newBook);
-			 * menuConstraints = driverUIBooks(); } //READ ALL THEN BACK TO BOOKS MENU else
-			 * if(input.get(input.size() - 1) == 2) { readBooks(); menuConstraints =
-			 * driverUIBooks(); } //UPDATE BOOK else if(input.get(input.size() - 1) == 3) {
-			 * System.out.println("Enter the ID of the book to update: "); input.push(new
-			 * Integer(getUserIntegerInput(scan).toString())); Book newBook =
-			 * books.get(input.get(input.size() - 1));
-			 * System.out.println("Enter the new title of the book: "); StringBuffer title =
-			 * getUserInput(scan); System.out.println("Enter the new author of the book: ");
-			 * StringBuffer authorName = getUserInput(scan);
-			 * System.out.println("Enter the new publisher name of the book: ");
-			 * StringBuffer publisherName = getUserInput(scan);
-			 * System.out.println("Enter the new publisher address of the book: ");
-			 * StringBuffer address = getUserInput(scan); updateBook(newBook, title,
-			 * authorName, publisherName, address); } //DELETE BOOK BY ID else
-			 * if(input.get(input.size() - 1) == 4) {
-			 * System.out.println("Enter ID of book to delete: "); input.push(new
-			 * Integer(getUserIntegerInput(scan).toString()));
-			 * deleteBook(input.get(input.size() - 1)); } //SAVE BOOK else
-			 * if(input.get(input.size() - 1) == 5) { save(); menuConstraints =
-			 * driverUIBooks();
-			 * 
-			 * } //GO BACK else if(input.get(input.size() - 1) == 6) { menuConstraints =
-			 * driverUIBooks(); } } //AUTHORS MENU else if(input.get(input.size() - 1) == 2)
-			 * { menuConstraints = driverUIAuthors(); input.push(getUserInput(scan,
-			 * menuConstraints[0], menuConstraints[1])); //BAD INPUT MENU; BACK TO AUTHORS
-			 * MENU if(input.get(input.size() - 1) == -1) { menuConstraints =
-			 * driverUIAuthors(); } //CREATE AN AUTHOR MENU else if(input.get(input.size() -
-			 * 1) == 1) { System.out.println("Enter author name: "); Author newAuthor = new
-			 * Author(new StringBuffer(getUserInput(scan)));
-			 * authors.put(newAuthor.getAuthorID(), newAuthor); } //READ ALL AUTHORS MENU
-			 * else if(input.get(input.size() - 1) == 2) { readAuthors(); menuConstraints =
-			 * driverUIAuthors(); } //UPDATE AN AUTHOR MENU else if(input.get(input.size() -
-			 * 1) == 3) {
-			 * 
-			 * System.out.println("Enter the ID of the book to update: "); input.push(new
-			 * Integer(getUserIntegerInput(scan).toString())); Integer newID =
-			 * input.get(input.size() - 1);
-			 * System.out.println("Enter the new author's name: "); getUserInput(scan);
-			 * updateAuthor(authors.get(input.get(input.size() - 1)), );
-			 * 
-			 * Author newAuthor = authors.get(input.get(input.size() - 1));
-			 * System.out.println("Enter the new title of the book: "); StringBuffer title =
-			 * getUserInput(scan);
-			 * 
-			 * 
-			 * } //DELETE AN AUTHOR MENU else if(input.get(input.size() - 1) == 4) {
-			 * System.out.println("Enter ID of the author to delete: "); input.push(new
-			 * Integer(getUserIntegerInput(scan).toString()));
-			 * deleteAuthor(input.get(input.size() - 1)); } //SAVE; BACK TO AUTHORS MENU
-			 * else if(input.get(input.size() - 1) == 5) { save(); menuConstraints =
-			 * driverUIAuthors(); } //BACK TO MENU else if(input.get(input.size() - 1) == 6)
-			 * { menuConstraints = driverUIAuthors(); } else { menuConstraints =
-			 * driverUIAuthors(); } } //PUBLISHERS MENU else if(input.get(input.size() - 1)
-			 * == 3) { driverUIPublishers(); menuConstraints = driverUIPublishers();
-			 * input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1])); //BAD
-			 * INPUT MENU; BACK TO PUBLSHERS MENU if(input.get(input.size() - 1) == -1) {
-			 * menuConstraints = driverUIAuthors(); } //CREATE A PUBLSHER MENU else
-			 * if(input.get(input.size() - 1) == 1) {
-			 * System.out.println("Enter publisher name: "); inputString.add(new
-			 * StringBuffer(getUserInput(scan))); //scan.hasNextLine();
-			 * System.out.println("Enter publisher address: "); inputString.add(new
-			 * StringBuffer(getUserInput(scan))); Publisher newPublisher = new
-			 * Publisher(inputString.get(0), inputString.get(1));
-			 * publishers.put(newPublisher.getPublisherID(), newPublisher); } //READ ALL
-			 * PUBLSHERS MENU else if(input.get(input.size() - 1) == 2) { readPublishers();
-			 * menuConstraints = driverUIPublishers(); } //UPDATE A PUBLSHER MENU else
-			 * if(input.get(input.size() - 1) == 3) {
-			 * System.out.println("Enter ID of publisher to update: "); input.push(new
-			 * Integer(getUserIntegerInput(scan).toString())); //updatePublisher(); }
-			 * //DELETE A PUBLSHERS MENU else if(input.get(input.size() - 1) == 4) {
-			 * System.out.println("Enter ID of publisher to delete: "); input.push(new
-			 * Integer(getUserIntegerInput(scan).toString()));
-			 * deletePublisher(input.get(input.size() - 1)); } //SAVE; BACK TO PUBLSHERS
-			 * MENU else if(input.get(input.size() - 1) == 5) { save(); menuConstraints =
-			 * driverUIPublishers(); } //BACK TO MENU else if(input.get(input.size() - 1) ==
-			 * 6) { menuConstraints = driverUIPublishers(); } else { menuConstraints =
-			 * driverUIPublishers(); }
-			 * 
-			 * } //SAVE THEN BACK TO MAIN MENU else if(input.get(input.size() - 1) == 4) {
-			 * save(); menuConstraints = driverUIMain(); } //EXIT PROGRAM else
-			 * if(input.get(input.size() - 1) == 5) { exit(); } //UNKNOWN BAD INPUT; BACK TO
-			 * MAIN MENU else { System.out.println("Only integers between " +
-			 * menuConstraints[0] + " and " + menuConstraints[1] +
-			 * " are allowed. Try input again."); input.pop(); menuConstraints =
-			 * driverUIMain(); }
-			 */ 
 			} catch (InputMismatchException ime) {
 				System.err.println("Please run it again with legal input.");
 				//driverUIMain(scan);
@@ -187,44 +55,6 @@ public class LMS {
 				e.printStackTrace(System.err);		
 				//driverUIMain(scan);
 			}
-
-		// System.out.println("Your input was: " + input.toString());
-
-		// deleteAuthor(2);
-		// deletePublisher(3);
-		// addAuthor(new StringBuffer("John Smith"));
-		// addPublisher(new StringBuffer("John's Publishing House"), new
-		// StringBuffer("1010 Springfield Ave, NP, NJ, USA"));
-		// addBook(new StringBuffer("A New Book"), new StringBuffer("New Author"), new
-		// StringBuffer("New Publisher"), new StringBuffer("555 New St, New, NY, USA"));
-		// updateAuthor(authors.get(1), new StringBuffer("An Updated Name"));
-		// updatePublisher(publishers.get(2), new StringBuffer("Updated Publisher
-		// Name"), new StringBuffer("Updated Publisher Address, USA"));
-		// updateBook(books.get(6), new StringBuffer("An Updated Title"), new
-		// StringBuffer("Updated Author Name"), new StringBuffer("Updated Pubisher
-		// Name"), new StringBuffer("This Updated Address, USA"));
-		lms.save();
-
-		/*
-		 * listBooks(); System.out.println(); listAuthors(); System.out.println();
-		 * listPublishers();
-		 */
-
-		/*
-		 * dbDriverMain(); Integer commandType = scan.nextInt();
-		 * 
-		 * if(commandType == 1) { dbDriver2("Create"); } else if(commandType == 1) {
-		 * dbDriver2("Read"); } else if(commandType == 3) { dbDriver2("Update"); } else
-		 * if(commandType == 4) { dbDriver2("Delete"); } else { dbDriverMain(); }
-		 */
-		/*
-		 * THIS IS FOR WEEK 2 mainMenu(); Integer userType = scan.nextInt();
-		 * 
-		 * switch(userType){ case 1: lib1(); break; case 2: admin1(); break; case 3:
-		 * borr1(); break;
-		 * 
-		 * }
-		 */
 	}
 
 	private Book addBook(StringBuffer title, StringBuffer authorName, StringBuffer publisherName, StringBuffer address) {
@@ -456,12 +286,17 @@ public class LMS {
 	 * save data to files
 	 */
 	private void save() {
+		saveAuthors();
+		saveBooks();
+		savePublishers();
+	}
+	/**
+	 * save Author data to Authors.txt
+	 */
+	private void saveAuthors()
+	{
 		BufferedWriter bw = null;
 		try {
-			// bw = new BufferedWriter(new
-			// FileWriter("C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\test.txt"));
-			// bw.write("This is only a test");
-			// bw.flush();
 			bw = new BufferedWriter(new FileWriter(
 					"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Authors.txt"));
 			for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {
@@ -470,7 +305,28 @@ public class LMS {
 				bw.newLine();
 			}
 			bw.flush();
-
+			System.out.println("Authors saved");
+		}catch (IOException e) {
+			System.err.println("Authors.txt cannot be created or opened.");
+		} catch (Exception e) {
+			System.err.println("Error writing to Authors.txt.");
+		} finally {
+			if (bw != null) {
+				try {
+					bw.close();
+				} catch (IOException ioe) {
+					System.err.println("Failed to close BufferedWriter");
+				}
+			}
+		}
+	}
+	/**
+	 * save Book data to Books.txt
+	 */
+	private void saveBooks()
+	{
+		BufferedWriter bw = null;
+		try {
 			bw = new BufferedWriter(new FileWriter(
 					"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Books.txt"));
 			for (HashMap.Entry<Integer, Book> currentBook : books.entrySet()) {
@@ -479,17 +335,8 @@ public class LMS {
 				bw.newLine();
 			}
 			bw.flush();
-
-			bw = new BufferedWriter(new FileWriter(
-					"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Publishers.txt"));
-			for (HashMap.Entry<Integer, Publisher> currentPublisher : publishers.entrySet()) {
-				// System.out.println(currentPublisher.getValue().toStringBuffer().toString());
-				bw.write(currentPublisher.getValue().toStringBuffer().toString());
-				bw.newLine();
-			}
-			bw.flush();
-			System.out.println("Progress saved");
-		} catch (IOException e) {
+			System.out.println("Books saved");
+		}catch (IOException e) {
 			System.err.println("Books.txt cannot be created or opened.");
 		} catch (Exception e) {
 			System.err.println("Error writing to Books.txt.");
@@ -501,12 +348,41 @@ public class LMS {
 					System.err.println("Failed to close BufferedWriter");
 				}
 			}
-
+		}
+	}
+	/**
+	 * save Publisher data to Publishers.txt
+	 */
+	private void savePublishers()
+	{
+		BufferedWriter bw = null;
+		try {
+			bw = new BufferedWriter(new FileWriter(
+					"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Publishers.txt"));
+			for (HashMap.Entry<Integer, Publisher> currentPublisher : publishers.entrySet()) {
+				// System.out.println(currentPublisher.getValue().toStringBuffer().toString());
+				bw.write(currentPublisher.getValue().toStringBuffer().toString());
+				bw.newLine();
+			}
+			bw.flush();
+			System.out.println("Publishers saved");
+		} catch (IOException e) {
+			System.err.println("Publishers.txt cannot be created or opened.");
+		} catch (Exception e) {
+			System.err.println("Error writing to Publishers.txt.");
+		} finally {
+			if (bw != null) {
+				try {
+					bw.close();
+				} catch (IOException ioe) {
+					System.err.println("Failed to close BufferedWriter");
+				}
+			}
 		}
 	}
 
 	/**
-	 * save data to files then exit without error
+	 * exit without error
 	 */
 	private void exit() {
 		// save(); //give the option to exit without saving
@@ -662,7 +538,7 @@ public class LMS {
 			driverUIAuthorsDelete(scan);
 		} else if (currentInputInteger == 5) {
 			//ADD SAVEAUTHOR() METHOD
-			save();
+			saveAuthors();
 			driverUIAuthors(scan);
 		} else if (currentInputInteger == 6) {
 			driverUIMain(scan);
@@ -705,7 +581,7 @@ public class LMS {
 		} else if (currentInputInteger == 4) {
 			driverUIBooksDelete(scan);
 		} else if (currentInputInteger == 5) {
-			save();
+			saveBooks();
 			driverUIBooks(scan);
 		} else if (currentInputInteger == 6) {
 			driverUIMain(scan);
@@ -748,7 +624,7 @@ public class LMS {
 		} else if (currentInputInteger == 4) {
 			driverUIPublishersDelete(scan);
 		} else if (currentInputInteger == 5) {
-			save();
+			savePublishers();
 			driverUIPublishers(scan);
 		} else if (currentInputInteger == 6) {
 			driverUIMain(scan);
@@ -774,7 +650,7 @@ public class LMS {
 		// inputString.add(getUserInput(scan));
 		StringBuffer newPublisherAddress = getUserInput(scan);
 		//Publisher newPublisher = addPublisher(newPublisherName, newPublisherAddress);
-		Book newBook = addBook(newTitle, newAuthor.getAuthorName(), newPublisher.getPublisherName(), newPublisher.getAddress());
+		Book newBook = addBook(newTitle, newAuthorName, newPublisherName, newPublisherName);
 		driverUIBooks(scan);
 	}
 	
@@ -825,7 +701,7 @@ public class LMS {
 		System.out.println("Enter the new publisher address of the book: ");
 		StringBuffer newAddress = getUserInput(scan);
 		updateBook(bookToUpdate, newTitle, newAuthorName, newPublisherName, newAddress);
-		System.out.println("Book updated");
+		System.out.println("Update Complete");
 		driverUIBooks(scan);
 	}
 	private void driverUIAuthorsUpdate(Scanner scan) {
@@ -841,7 +717,7 @@ public class LMS {
 		System.out.println("Enter the new author name: ");
 		StringBuffer newAuthorName = getUserInput(scan);
 		updateAuthor(authorToUpdate, newAuthorName);
-		System.out.println("Author updated");
+		System.out.println("Update Complete");
 		driverUIAuthors(scan);
 	}
 	private void driverUIPublishersUpdate(Scanner scan) {
@@ -859,7 +735,7 @@ public class LMS {
 		System.out.println("Enter the new publisher address: ");
 		StringBuffer newPublisherAddress = getUserInput(scan);
 		updatePublisher(publisherToUpdate, newPublisherName, newPublisherAddress);
-		System.out.println("Publisher updated");
+		System.out.println("Update Complete");
 		driverUIPublishers(scan);
 	}
 
