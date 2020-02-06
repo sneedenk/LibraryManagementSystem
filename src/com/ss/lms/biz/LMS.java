@@ -236,7 +236,7 @@ public class LMS {
 		Book book = null;
 		for (Integer i = 0; i < bookArray.length; i++) {
 			if (bookArray[i].equals(newBook)) {
-				System.out.println("That book already exists");
+				System.out.println("That book already exists. No new book created.");
 				return bookArray[i];
 			}
 		}
@@ -249,7 +249,7 @@ public class LMS {
 	private Author addAuthor(StringBuffer authorFullName) {
 		for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {			
 			if (currentAuthor.getValue().getAuthorName().toString().equals(authorFullName.toString())) {
-				System.out.println("That author already exists");
+				System.out.println("That author already exists. No new author created.");
 				return currentAuthor.getValue();
 			}
 		}
@@ -263,7 +263,7 @@ public class LMS {
 		for (HashMap.Entry<Integer, Publisher> currentPublisher : publishers.entrySet()) {
 			if (currentPublisher.getValue().getPublisherName().toString().equals(publisherName.toString())
 					&& currentPublisher.getValue().getAddress().toString().equals(address.toString())) {
-				System.out.println("That publisher already exists");
+				System.out.println("That publisher already exists. No new publisher created.");
 				return currentPublisher.getValue();
 			}
 		}
@@ -321,7 +321,7 @@ public class LMS {
 			if(currentBook.getValue().getTitle().toString().equals(title.toString()) && 
 					currentBook.getValue().getAuthorID() == bookAuthor.getAuthorID() &&
 					currentBook.getValue().getPublisherID() == bookPublisher.getPublisherID()) {
-						System.out.println("That author already exists. Record not updated.");
+						System.out.println("That book already exists. Record not updated.");
 						return;
 			}
 		}		
@@ -765,7 +765,7 @@ public class LMS {
 		StringBuffer newTitle = getUserInput(scan);
 		System.out.println("Enter author name: ");
 		StringBuffer newAuthorName = getUserInput(scan);
-		Author newAuthor = addAuthor(newAuthorName);
+		//Author newAuthor = addAuthor(newAuthorName);
 		// inputString.add(new StringBuffer(getUserInput(scan)));
 		System.out.println("Enter publisher name: ");
 		// inputString.add(getUserInput(scan));
@@ -773,7 +773,7 @@ public class LMS {
 		System.out.println("Enter publisher address: ");
 		// inputString.add(getUserInput(scan));
 		StringBuffer newPublisherAddress = getUserInput(scan);
-		Publisher newPublisher = addPublisher(newPublisherName, newPublisherAddress);
+		//Publisher newPublisher = addPublisher(newPublisherName, newPublisherAddress);
 		Book newBook = addBook(newTitle, newAuthor.getAuthorName(), newPublisher.getPublisherName(), newPublisher.getAddress());
 		driverUIBooks(scan);
 	}
