@@ -6,9 +6,11 @@ package com.ss.lms.biz;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Iterator;
+import java.util.Map;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -233,7 +235,9 @@ public class LMS {
 				Author currentAuthor = new Author(authorID, authorName);
 				authors.put(authorID, currentAuthor);
 			}
-			Author.setUniqueAuthorID(authors.keySet().size());
+			//Author.setUniqueAuthorID(authors.keySet().size());  //doesn't work if deletes leave gaps in IDs
+			Integer maxAuthorsKey = Collections.max(authors.keySet());
+			Author.setUniqueAuthorID(maxAuthorsKey);
 			
 			br.close();
 			br = new BufferedReader(new FileReader(
@@ -251,7 +255,9 @@ public class LMS {
 				Publisher currentPublisher = new Publisher(publisherID, businessName, address);
 				publishers.put(publisherID, currentPublisher);
 			}
-			Publisher.setUniquePublisherID(publishers.keySet().size());
+			//Publisher.setUniquePublisherID(publishers.keySet().size());  //doesn't work if deletes leave gaps in IDs
+			Integer maxPublishersKey = Collections.max(publishers.keySet());
+			Publisher.setUniquePublisherID(maxPublishersKey);
 			
 			br.close();
 			br = new BufferedReader(new FileReader(
@@ -272,7 +278,9 @@ public class LMS {
 				Book currentBook = new Book(bookID, title, authorID, publisherID);
 				books.put(bookID, currentBook);
 			}
-			Book.setUniqueBookID(books.keySet().size());
+			//Book.setUniqueBookID(books.keySet().size());  //doesn't work if deletes leave gaps in IDs
+			Integer maxBooksKey = Collections.max(books.keySet());
+			Book.setUniqueBookID(maxBooksKey);
 
 		} catch (FileNotFoundException f) {
 			System.err.println("File not found");
@@ -746,7 +754,7 @@ public class LMS {
 		}
 		driverUIPublishers(scan);
 	}
-
+	
 	//BEGIN WEEK 2 CODE
 	private void mainMenu() {
 		System.out.println(
