@@ -123,8 +123,7 @@ public class LMS {
 	// THIS IS A GOOD CANDIDATE TO CONVERT TO LAMDAS/STREAMS
 	private void readAuthors() {
 		for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {
-			System.out
-					.println("ID: " + currentAuthor.getKey() + " | Name: " + currentAuthor.getValue().getAuthorName());
+			System.out.println("ID: " + currentAuthor.getKey() + " | Name: " + currentAuthor.getValue().getAuthorName());
 		}
 	}
 
@@ -649,7 +648,7 @@ public class LMS {
 		System.out.println("Enter publisher address: ");
 		StringBuffer newPublisherAddress = getUserInput(scan);
 		addPublisher(newPublisherName, newPublisherAddress);
-		driverUIBooks(scan);
+		driverUIPublishers(scan);
 	}
 
 	private void driverUIBooksRead(Scanner scan) {
