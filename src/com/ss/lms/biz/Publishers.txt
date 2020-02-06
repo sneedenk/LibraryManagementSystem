@@ -3,3 +3,4 @@
 3|Twelve Books|789 Morris Ave, Fairfax, VA, USA
 7|gonna|work
 8|HarperCollins Publishers|123 Main St, Washington, DC, USA
+9|new publisher|new address

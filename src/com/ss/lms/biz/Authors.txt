@@ -1,5 +1,5 @@
 1|Sidney Sheldon
 2|Stephen King
 3|Mark Penn
-7|is
-8|Sidney Sheldon
+8|Updated Author
+10|New Name
