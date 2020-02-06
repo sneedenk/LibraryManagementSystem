@@ -8,7 +8,7 @@ package com.ss.lms.biz;
  */
 public class Book 
 {
-	private static Integer uniqueBookID = 5;
+	private static Integer uniqueBookID = 0;
 	private Integer bookID;
 	private StringBuffer title;
 	private Integer authorID;
@@ -31,6 +31,15 @@ public class Book
 		this.publisherID = publisher;
 	}
 	
+	/**
+	 * sets the unique Book counter
+	 * only intended to be called from LMS.load()
+	 * @param numberOfExistingBooks how many books were loaded from Books.txt
+	 */
+	protected static void setUniqueBookID(Integer numberOfExistingBooks)
+	{
+		uniqueBookID = numberOfExistingBooks;
+	}
 	/**
 	 * ask the Book class for a unique id
 	 * @return uniqueBookID

@@ -10,7 +10,7 @@ package com.ss.lms.biz;
  */
 public class Author 
 {
-	private static Integer uniqueAuthorID = 5;
+	private static Integer uniqueAuthorID = 0;
 	private Integer authorID;
 	private StringBuffer authorName;
 	/**
@@ -26,6 +26,17 @@ public class Author
 		this.authorID = authorID;
 		this.authorName = authorName;
 	}
+	
+	/**
+	 * sets the unique Author counter
+	 * only intended to be called from LMS.load()
+	 * @param numberOfExistingAuthors how many authors were loaded from Authors.txt
+	 */
+	protected static void setUniqueAuthorID(Integer numberOfExistingAuthors)
+	{
+		uniqueAuthorID = numberOfExistingAuthors;
+	}
+
 	/**
 	 * ask the Author class for a unique id
 	 * @return uniqueAuthorID

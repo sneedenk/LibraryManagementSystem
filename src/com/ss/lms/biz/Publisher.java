@@ -9,7 +9,7 @@ package com.ss.lms.biz;
  */
 public class Publisher 
 {
-	private static Integer uniquePublisherID = 5;
+	private static Integer uniquePublisherID = 0;
 	private Integer publisherID;
 	private StringBuffer publisherName;
 	private StringBuffer address;
@@ -27,6 +27,16 @@ public class Publisher
 		this.publisherID = publisherID;
 		this.publisherName = publisherName;
 		this.address = address;
+	}
+	
+	/**
+	 * sets the unique Publisher counter
+	 * only intended to be called from LMS.load()
+	 * @param numberOfExistingPublishers how many publishers were loaded from Publishers.txt
+	 */
+	protected static void setUniquePublisherID(Integer numberOfExistingPublishers)
+	{
+		uniquePublisherID = numberOfExistingPublishers;
 	}
 	/**
 	 * ask the Publisher class for a unique id

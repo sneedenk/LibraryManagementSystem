@@ -5,7 +5,6 @@ package com.ss.lms.biz;
 
 import java.util.Scanner;
 import java.util.Set;
-import java.util.Stack;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -234,7 +233,9 @@ public class LMS {
 				Author currentAuthor = new Author(authorID, authorName);
 				authors.put(authorID, currentAuthor);
 			}
-
+			Author.setUniqueAuthorID(authors.keySet().size());
+			
+			br.close();
 			br = new BufferedReader(new FileReader(
 					"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Publishers.txt"));
 			while ((line = br.readLine()) != null) {
@@ -250,7 +251,9 @@ public class LMS {
 				Publisher currentPublisher = new Publisher(publisherID, businessName, address);
 				publishers.put(publisherID, currentPublisher);
 			}
-
+			Publisher.setUniquePublisherID(publishers.keySet().size());
+			
+			br.close();
 			br = new BufferedReader(new FileReader(
 					"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Books.txt"));
 			while ((line = br.readLine()) != null) {
@@ -269,6 +272,7 @@ public class LMS {
 				Book currentBook = new Book(bookID, title, authorID, publisherID);
 				books.put(bookID, currentBook);
 			}
+			Book.setUniqueBookID(books.keySet().size());
 
 		} catch (FileNotFoundException f) {
 			System.err.println("File not found");
@@ -300,11 +304,10 @@ public class LMS {
 	 */
 	private void saveAuthors()
 	{
-		BufferedWriter bw = null;
-		try {
-			bw = new BufferedWriter(new FileWriter(
-					"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Authors.txt"));
-			for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter(
+				"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Authors.txt"))) 
+		{
+						for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {
 				// System.out.println(currentAuthor.getValue().toStringBuffer().toString());
 				bw.write(currentAuthor.getValue().toStringBuffer().toString());
 				bw.newLine();
@@ -315,14 +318,6 @@ public class LMS {
 			System.err.println("Authors.txt cannot be created or opened.");
 		} catch (Exception e) {
 			System.err.println("Error writing to Authors.txt.");
-		} finally {
-			if (bw != null) {
-				try {
-					bw.close();
-				} catch (IOException ioe) {
-					System.err.println("Failed to close BufferedWriter");
-				}
-			}
 		}
 	}
 	/**
@@ -330,10 +325,9 @@ public class LMS {
 	 */
 	private void saveBooks()
 	{
-		BufferedWriter bw = null;
-		try {
-			bw = new BufferedWriter(new FileWriter(
-					"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Books.txt"));
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter(
+				"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Books.txt")))
+		{
 			for (HashMap.Entry<Integer, Book> currentBook : books.entrySet()) {
 				// System.out.println(currentBook.getValue().toStringBuffer().toString());
 				bw.write(currentBook.getValue().toStringBuffer().toString());
@@ -345,14 +339,6 @@ public class LMS {
 			System.err.println("Books.txt cannot be created or opened.");
 		} catch (Exception e) {
 			System.err.println("Error writing to Books.txt.");
-		} finally {
-			if (bw != null) {
-				try {
-					bw.close();
-				} catch (IOException ioe) {
-					System.err.println("Failed to close BufferedWriter");
-				}
-			}
 		}
 	}
 	/**
@@ -360,10 +346,9 @@ public class LMS {
 	 */
 	private void savePublishers()
 	{
-		BufferedWriter bw = null;
-		try {
-			bw = new BufferedWriter(new FileWriter(
-					"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Publishers.txt"));
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter(
+				"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Publishers.txt"))) 
+		{	
 			for (HashMap.Entry<Integer, Publisher> currentPublisher : publishers.entrySet()) {
 				// System.out.println(currentPublisher.getValue().toStringBuffer().toString());
 				bw.write(currentPublisher.getValue().toStringBuffer().toString());
@@ -375,14 +360,6 @@ public class LMS {
 			System.err.println("Publishers.txt cannot be created or opened.");
 		} catch (Exception e) {
 			System.err.println("Error writing to Publishers.txt.");
-		} finally {
-			if (bw != null) {
-				try {
-					bw.close();
-				} catch (IOException ioe) {
-					System.err.println("Failed to close BufferedWriter");
-				}
-			}
 		}
 	}
 
