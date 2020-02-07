@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Iterator;
-import java.util.Map;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -25,41 +24,28 @@ import java.lang.StringBuffer;
  */
 public class LMS {
 
-	/**
-	 * @param args
-	 */
-
 	private HashMap<Integer, Author> authors;
 	private HashMap<Integer, Publisher> publishers;
 	private HashMap<Integer, Book> books;
-	//private Stack<Integer[]> menuConstraints;
-	//private Integer[] menuConstraints;
-	//private Stack<Integer> inputInteger;
 	
 	public LMS()
 	{
 		authors = new HashMap<Integer, Author>();
 		publishers = new HashMap<Integer, Publisher>();
 		books = new HashMap<Integer, Book>();
-		//menuConstraints = new Stack<Integer[]>();
-		//menuConstraints = new Integer[2];
-		//inputInteger = new Stack<Integer>();
 	}
 	public static void main(String[] args) {
 		LMS lms = new LMS();
 		lms.load();
 
 		try (Scanner scan = new Scanner(System.in)) {
-			// MAIN MENU
-			// menuConstraints = driverUIMain(scan);
+			// LOAD MAIN MENU
 			lms.driverUIMain(scan);
 			} catch (InputMismatchException ime) {
 				System.err.println("Please run it again with legal input.");
-				//driverUIMain(scan);
 			} catch (Exception e) {
 				System.err.println("Something went wrong getting user input");
 				e.printStackTrace(System.err);		
-				//driverUIMain(scan);
 			}
 	}
 
@@ -68,22 +54,24 @@ public class LMS {
 		Publisher bookPublisher = addPublisher(publisherName, address);
 		
 		for (HashMap.Entry<Integer, Book> currentBook : books.entrySet()) {
-			//if(currentBook.getValue().getTitle().toString().equals(title.toString()) && 
-			//		currentBook.getValue().getAuthorID() == bookAuthor.getAuthorID() &&
-			//		currentBook.getValue().getPublisherID() == bookPublisher.getPublisherID()) {
-			if(currentBook.getValue().getTitle().toString().equals(title.toString()))
-			{
-				if(currentBook.getValue().getAuthorID().equals(bookAuthor.getAuthorID()))
-				{
-					if(currentBook.getValue().getPublisherID().equals(bookPublisher.getPublisherID()))
-					{
-						System.out.println("That book already exists. No new book created.");
-						return currentBook.getValue();
-					}
-				}
+			if(currentBook.getValue().getTitle().toString().equals(title.toString()) && 
+					currentBook.getValue().getAuthorID().equals(bookAuthor.getAuthorID()) &&
+					currentBook.getValue().getPublisherID().equals(bookPublisher.getPublisherID())) {
+				System.out.println("That book already exists. No new book created.");
+				return currentBook.getValue();
 			}
-		}
-		
+		}	
+			//Nested ifs for debugging purposes
+			//if(currentBook.getValue().getTitle().toString().equals(title.toString()))
+			//{
+			//	if(currentBook.getValue().getAuthorID().equals(bookAuthor.getAuthorID()))
+			//	{
+			//		if(currentBook.getValue().getPublisherID().equals(bookPublisher.getPublisherID()))
+			//		{
+			//		}
+			//	}
+			//}
+				
 		Book newBook = new Book(title, bookAuthor.getAuthorID(), bookPublisher.getPublisherID());
 		books.put(newBook.getBookID(), newBook);
 		System.out.println("Book added");
@@ -160,10 +148,11 @@ public class LMS {
 	{
 		Author bookAuthor = addAuthor(authorName);
 		Publisher bookPublisher = addPublisher(publisherName, address); 
+		//consider just getting rid of this loop. Does it matter if the book already exists? The post-conditions are identical.
 		for (HashMap.Entry<Integer, Book> currentBook : books.entrySet()) {
 			if(currentBook.getValue().getTitle().toString().equals(title.toString()) && 
-					currentBook.getValue().getAuthorID() == bookAuthor.getAuthorID() &&
-					currentBook.getValue().getPublisherID() == bookPublisher.getPublisherID()) {
+					currentBook.getValue().getAuthorID().equals(bookAuthor.getAuthorID()) &&
+					currentBook.getValue().getPublisherID().equals(bookPublisher.getPublisherID())) {
 						System.out.println("That book already exists. Record not updated.");
 						return;
 			}
@@ -172,10 +161,10 @@ public class LMS {
 		book.setTitle(title);
 		book.setAuthorID(bookAuthor.getAuthorID());
 		book.setPublisherID(bookPublisher.getPublisherID());
-		//System.out.println("Book updated"); //printed from the UI driver
 		}
 
 	private void updateAuthor(Author author, StringBuffer authorName) {
+		//consider just getting rid of this loop. Does it matter if the book already exists? The post-conditions are identical.
 		for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {
 			if (currentAuthor.getValue().getAuthorName().toString().equals(authorName.toString())) {
 				System.out.println("That author already exists. Record not updated.");
@@ -183,10 +172,10 @@ public class LMS {
 			}
 		}
 		author.setAuthorName(authorName);
-		//System.out.println("Author updated"); //printed from the UI driver
 	}
 
 	private void updatePublisher(Publisher publisher, StringBuffer publisherName, StringBuffer address) {
+		//consider just getting rid of this loop. Does it matter if the book already exists? The post-conditions are identical.
 		for (HashMap.Entry<Integer, Publisher> currentPublisher : publishers.entrySet()) {
 			if (currentPublisher.getValue().getPublisherName().toString().equals(publisherName.toString())
 					&& currentPublisher.getValue().getAddress().toString().equals(address.toString())) {
@@ -196,7 +185,6 @@ public class LMS {
 		}
 		publisher.setPublisherName(publisherName);
 		publisher.setAddress(address);
-		//System.out.println("Publisher updated"); //printed from the UI driver
 	}
 
 	private Book deleteBook(Integer bookID) {
@@ -300,9 +288,7 @@ public class LMS {
 				} catch (IOException ioe) {
 					System.err.println("Failed to close BufferedReader");
 				}
-
 			}
-
 		}
 	}
 
@@ -319,11 +305,9 @@ public class LMS {
 	 */
 	private void saveAuthors()
 	{
-		try(BufferedWriter bw = new BufferedWriter(new FileWriter(
-				"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Authors.txt"))) 
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Authors.txt"))) 
 		{
-						for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {
-				// System.out.println(currentAuthor.getValue().toStringBuffer().toString());
+			for (HashMap.Entry<Integer, Author> currentAuthor : authors.entrySet()) {
 				bw.write(currentAuthor.getValue().toStringBuffer().toString());
 				bw.newLine();
 			}
@@ -340,11 +324,9 @@ public class LMS {
 	 */
 	private void saveBooks()
 	{
-		try(BufferedWriter bw = new BufferedWriter(new FileWriter(
-				"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Books.txt")))
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Books.txt")))
 		{
 			for (HashMap.Entry<Integer, Book> currentBook : books.entrySet()) {
-				// System.out.println(currentBook.getValue().toStringBuffer().toString());
 				bw.write(currentBook.getValue().toStringBuffer().toString());
 				bw.newLine();
 			}
@@ -361,11 +343,9 @@ public class LMS {
 	 */
 	private void savePublishers()
 	{
-		try(BufferedWriter bw = new BufferedWriter(new FileWriter(
-				"C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Publishers.txt"))) 
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\UCI\\Documents\\GitHub\\Smoothstack\\src\\com\\ss\\lms\\biz\\Publishers.txt"))) 
 		{	
 			for (HashMap.Entry<Integer, Publisher> currentPublisher : publishers.entrySet()) {
-				// System.out.println(currentPublisher.getValue().toStringBuffer().toString());
 				bw.write(currentPublisher.getValue().toStringBuffer().toString());
 				bw.newLine();
 			}
@@ -382,26 +362,24 @@ public class LMS {
 	 * exit without error
 	 */
 	private void exit() {
-		// save(); //give the option to exit without saving
+		// save(); //give the option to exit without saving; all saves are manual now
 		System.exit(0);
 	}
 
 	private StringBuffer getUserInput(Scanner scan) {
 		StringBuffer input = new StringBuffer();
-		// if(scan.hasNextLine())
-		// {
-		// scan.nextLine();
 		String inputString = scan.nextLine();
 		input.append(inputString);
+		//this is not a good quality control check; the else doesn't re-prompt for input
+		//maybe on the UI side, take input and test it for length and decide to recall this method
+		//or could return null and have the UI side test for null and handle by recalling this method
 		if (input.length() >= 2) {
 			return input;
 		}
 		System.out.println("Input must be at least 2 characters long");
-		// }
 		return input;
 	}
 
-	//private Integer getUserIntegerInput(Scanner scan, HashMap<Integer, ?> elements) {
 	private Integer getUserIntegerInput(Scanner scan, Set<Integer> elements){
 		Integer input = -1;
 		if(!scan.hasNextInt())
@@ -411,7 +389,6 @@ public class LMS {
 		}
 		input = scan.nextInt();
 		scan.nextLine();			
-		//if(elements.containsKey(input))
 		if(elements.contains(input))
 		{
 			return input;
@@ -449,65 +426,38 @@ public class LMS {
 		System.out.println("4) Save Updates");
 		System.out.println("5) Exit");
 		Integer[] constraints = { 1, 5 };
-
-		//menuConstraints.push(constraints);
 		Integer currentInputInteger = getUserIntegerInput(scan, constraints);
-		//inputInteger.push(currentInputInteger);
 		
-		/*
-		 * while(input.get(input.size() - 1) == -1) { System.out.println("Last Input: "
-		 * + input.get(input.size() - 1).toString()); input.pop(); Integer newInput =
-		 * getUserInput(scan, menuConstraints[0], menuConstraints[1]);
-		 * System.out.println("New Input: " + newInput); input.push(newInput); }
-		 */
 		// BAD INPUT; MENU BACK TO MAIN MENU
 		if (currentInputInteger == -1) {
-			//Integer currentMenuConstraints[] = menuConstraints.pop();
-			//inputInteger.pop();
 			System.out.println("Only integers between " + constraints[0] + " and " + constraints[1] + " are allowed. Try input again.");
 			driverUIMain(scan);
 		}
 		// BOOKS MENU
 		else if (currentInputInteger == 1) {
-			// menuConstraints.push(driverUIBooks(scan));
 			driverUIBooks(scan);
-			// CREATE A BOOK MENU
+			// AUTHORS MEN
 		} else if (currentInputInteger == 2) {
 			driverUIAuthors(scan);
-			// menuConstraints = driverUIAuthors();
-			// input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
-			// BAD INPUT MENU; BACK TO AUTHORS MENU
-		}
+		}	//PUBLISHERS MENU
 		else if (currentInputInteger == 3) {
 			driverUIPublishers(scan);
-			// menuConstraints = driverUIAuthors();
-			// input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
-			// BAD INPUT MENU; BACK TO AUTHORS MENU
-		}
+		}	//SAVE ALL DATA TO FILE
 		else if (currentInputInteger == 4) {
 			save();
 			driverUIMain(scan);
-			// menuConstraints = driverUIAuthors();
-			// input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
-			// BAD INPUT MENU; BACK TO AUTHORS MENU
-		}
+		}	//USER EXIT
 		else if (currentInputInteger == 5) {
 			exit();
-			// menuConstraints = driverUIAuthors();
-			// input.push(getUserInput(scan, menuConstraints[0], menuConstraints[1]));
-			// BAD INPUT MENU; BACK TO AUTHORS MENU
-		}
+		}	// BAD INPUT; BACK TO MAIN MENU
 		else {
 			System.out.println("Illegal input. Try again.");
 			driverUIMain(scan);
 		}
-
-		// return constraints;
 	}
 
 	private void driverUIAuthors(Scanner scan) {
-		System.out.println(
-				"Welcome to authors. Would you like to create, read, update, delete, save your progress, or go back? (enter an integer 1-6 only)");
+		System.out.println("Welcome to authors. Would you like to create, read, update, delete, save your progress, or go back? (enter an integer 1-6 only)");
 		System.out.println("1) Create Author");
 		System.out.println("2) Read All Author");
 		System.out.println("3) Update Author");
@@ -516,13 +466,9 @@ public class LMS {
 		System.out.println("6) Go back");
 		Integer[] constraints = { 1, 6 };
 		
-		//menuConstraints.push(constraints);
 		Integer currentInputInteger = getUserIntegerInput(scan, constraints);
-		//inputInteger.push(currentInputInteger);
 
 		if (currentInputInteger == -1) {
-			//Integer currentMenuConstraints[] = menuConstraints.pop();
-			//inputInteger.pop();
 			System.out.println("Only integers between " + constraints[0] + " and " + constraints[1] + " are allowed. Try input again.");
 			driverUIAuthors(scan);
 		} else if (currentInputInteger == 1) {
@@ -534,7 +480,6 @@ public class LMS {
 		} else if (currentInputInteger == 4) {
 			driverUIAuthorsDelete(scan);
 		} else if (currentInputInteger == 5) {
-			//ADD SAVEAUTHOR() METHOD
 			saveAuthors();
 			driverUIAuthors(scan);
 		} else if (currentInputInteger == 6) {
@@ -542,8 +487,6 @@ public class LMS {
 		} else {
 			driverUIAuthors(scan);
 		}
-
-		// return contraints;
 	}
 
 	private void driverUIBooks(Scanner scan) {
@@ -557,15 +500,9 @@ public class LMS {
 		System.out.println("6) Go back");
 		Integer[] constraints = { 1, 6 };
 
-		//menuConstraints.push(constraints);
 		Integer currentInputInteger = getUserIntegerInput(scan, constraints);
-		//inputInteger.push(currentInputInteger);
 
-		// System.out.println("Your input was: " + input.toString());
-		// BAD INPUT; BACK TO BOOKS MENU
 		if (currentInputInteger == -1) {
-			//Integer currentMenuConstraints[] = menuConstraints.pop();
-			//inputInteger.pop();
 			System.out.println("Only integers between " + constraints[0] + " and " + constraints[1] + " are allowed. Try input again.");
 			driverUIBooks(scan);
 		} else if (currentInputInteger == 1) {
@@ -584,8 +521,6 @@ public class LMS {
 		} else {
 			driverUIBooks(scan);
 		}
-
-		// return constraints;
 	}
 
 	private void driverUIPublishers(Scanner scan) {
@@ -599,15 +534,9 @@ public class LMS {
 		System.out.println("6) Go back");
 		Integer[] constraints = { 1, 6 };
 		
-		//menuConstraints.push(constraints);
 		Integer currentInputInteger = getUserIntegerInput(scan, constraints);
-		//inputInteger.push(currentInputInteger);
 
-		// System.out.println("Your input was: " + input.toString());
-		// BAD INPUT; BACK TO BOOKS MENU
 		if (currentInputInteger == -1) {
-			//Integer currentMenuConstraints[] = menuConstraints.pop();
-			//inputInteger.pop();
 			System.out.println("Only integers between " + constraints[0] + " and " + constraints[1] + " are allowed. Try input again.");
 			driverUIPublishers(scan);
 		} else if (currentInputInteger == 1) {
@@ -626,8 +555,6 @@ public class LMS {
 		} else {
 			driverUIPublishers(scan);
 		}
-
-		//return contraints;
 	}
 
 	private void driverUIBooksCreate(Scanner scan) {
@@ -673,7 +600,6 @@ public class LMS {
 	}
 	private void driverUIBooksUpdate(Scanner scan) {
 		System.out.println("Enter the ID of the book to update: ");
-		// input.push(new Integer(getUserIntegerInput(scan).toString()));
 		Integer bookID = getUserIntegerInput(scan, books.keySet());
 		if(bookID == -1)
 		{
@@ -695,7 +621,6 @@ public class LMS {
 	}
 	private void driverUIAuthorsUpdate(Scanner scan) {
 		System.out.println("Enter the ID of the author to update: ");
-		// input.push(new Integer(getUserIntegerInput(scan).toString()));
 		Integer authorID = getUserIntegerInput(scan, authors.keySet());
 		if(authorID == -1)
 		{
@@ -711,7 +636,6 @@ public class LMS {
 	}
 	private void driverUIPublishersUpdate(Scanner scan) {
 		System.out.println("Enter the ID of the publisher to update: ");
-		// input.push(new Integer(getUserIntegerInput(scan).toString()));
 		Integer publisherID = getUserIntegerInput(scan, publishers.keySet());
 		if(publisherID == -1)
 		{
@@ -731,7 +655,6 @@ public class LMS {
 	private void driverUIBooksDelete(Scanner scan) {
 		System.out.println("Enter ID of book to delete: ");
 		Integer bookID = getUserIntegerInput(scan, books.keySet());
-		// input.push(new Integer(getUserIntegerInput(scan).toString()));
 		if (deleteBook(bookID) == null) {
 			System.out.println("Invalid book ID. Read All Books for a list of valid book IDs.");
 		} else {
@@ -742,7 +665,6 @@ public class LMS {
 	private void driverUIAuthorsDelete(Scanner scan) {
 		System.out.println("Enter ID of Authors to delete: ");
 		Integer authorsID = getUserIntegerInput(scan, authors.keySet());
-		// input.push(new Integer(getUserIntegerInput(scan).toString()));
 		if (deleteAuthor(authorsID) == null) {
 			System.out.println("Invalid publisher ID. Read All Authors for a list of valid author IDs.");
 		} else {
@@ -753,7 +675,6 @@ public class LMS {
 	private void driverUIPublishersDelete(Scanner scan) {
 		System.out.println("Enter ID of publisher to delete: ");
 		Integer publisherID = getUserIntegerInput(scan, publishers.keySet());
-		// input.push(new Integer(getUserIntegerInput(scan).toString()));
 		if (deletePublisher(publisherID) == null) {
 			System.out.println("Invalid publisher ID. Read All Publishers for a list of valid publisher IDs.");
 		} else {
