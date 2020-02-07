@@ -68,11 +68,19 @@ public class LMS {
 		Publisher bookPublisher = addPublisher(publisherName, address);
 		
 		for (HashMap.Entry<Integer, Book> currentBook : books.entrySet()) {
-			if(currentBook.getValue().getTitle().toString().equals(title.toString()) && 
-					currentBook.getValue().getAuthorID() == bookAuthor.getAuthorID() &&
-					currentBook.getValue().getPublisherID() == bookPublisher.getPublisherID()) {
+			//if(currentBook.getValue().getTitle().toString().equals(title.toString()) && 
+			//		currentBook.getValue().getAuthorID() == bookAuthor.getAuthorID() &&
+			//		currentBook.getValue().getPublisherID() == bookPublisher.getPublisherID()) {
+			if(currentBook.getValue().getTitle().toString().equals(title.toString()))
+			{
+				if(currentBook.getValue().getAuthorID().equals(bookAuthor.getAuthorID()))
+				{
+					if(currentBook.getValue().getPublisherID().equals(bookPublisher.getPublisherID()))
+					{
 						System.out.println("That book already exists. No new book created.");
 						return currentBook.getValue();
+					}
+				}
 			}
 		}
 		
