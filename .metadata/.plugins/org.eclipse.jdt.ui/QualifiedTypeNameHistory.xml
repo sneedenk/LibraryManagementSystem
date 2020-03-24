@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.io.FileReader"/>
 <fullyQualifiedTypeName name="java.io.BufferedWriter"/>
@@ -13,4 +12,22 @@
 <fullyQualifiedTypeName name="java.util.Set"/>
 <fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="com.ss.lms.biz.Author"/>
+<fullyQualifiedTypeName name="com.ss.lms.biz.Publisher"/>
+<fullyQualifiedTypeName name="java.time.LocalDateTime"/>
+<fullyQualifiedTypeName name="java.io.Serializable"/>
+<fullyQualifiedTypeName name="com.ss.lms.biz.entity.Book"/>
+<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.ss.lms.biz.entity.Author"/>
+<fullyQualifiedTypeName name="com.ss.lms.biz.entity.Publisher"/>
+<fullyQualifiedTypeName name="java.sql.ResultSetMetaData"/>
+<fullyQualifiedTypeName name="com.ss.lms.biz.entity.Genre"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.ss.lms.biz.entity.Branch"/>
+<fullyQualifiedTypeName name="com.ss.lms.biz.entity.Borrower"/>
+<fullyQualifiedTypeName name="com.ss.lms.biz.entity.Copies"/>
+<fullyQualifiedTypeName name="java.lang.StringBuffer"/>
+<fullyQualifiedTypeName name="com.ss.lms.biz.entity.Loans"/>
 </qualifiedTypeNameHistroy>

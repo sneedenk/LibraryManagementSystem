@@ -5,11 +5,6 @@ package com.ss.lms.biz;
 
 import java.util.Scanner;
 import java.util.Set;
-
-import com.ss.lms.biz.entity.Author;
-import com.ss.lms.biz.entity.Book;
-import com.ss.lms.biz.entity.Publisher;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,7 +36,7 @@ public class LMS {
 	}
 	public static void main(String[] args) {
 		LMS lms = new LMS();
-		lms.load(); //re-write load to create DAOs and pull data from db
+		lms.load();
 
 		try (Scanner scan = new Scanner(System.in)) {
 			// LOAD MAIN MENU

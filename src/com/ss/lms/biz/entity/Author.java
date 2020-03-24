@@ -1,18 +1,23 @@
 /**
  * 
  */
-package com.ss.lms.biz;
-
+package com.ss.lms.biz.entity;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Kyle Sneeden
  *
  */
-public class Author 
+public class Author implements Serializable
 {
+
+	private static final long serialVersionUID = 6486880787858832463L;
 	private static Integer uniqueAuthorID = 0;
 	private Integer authorID;
 	private StringBuffer authorName;
+	private List<Book> books;
 
 	/**
 	 * general use constructor
@@ -22,6 +27,7 @@ public class Author
 	{
 		this.authorName = authorName;
 		this.authorID = getUniqueAuthorID();
+		this.books = new ArrayList<Book>();
 	}
 	/**
 	 * only intended for use from LMS.load()
@@ -32,8 +38,8 @@ public class Author
 	{
 		this.authorID = authorID;
 		this.authorName = authorName;
+		this.books = new ArrayList<Book>();
 	}
-	
 	/**
 	 * sets the unique Author counter
 	 * only intended to be called from LMS.load()
@@ -54,6 +60,12 @@ public class Author
 		return uniqueAuthorID;
 	}
 	/**
+	 * @param authorID the authorID to set
+	 */
+	public void setAuthorID(Integer authorID) {
+		this.authorID = authorID;
+	}
+	/**
 	 * @return the authorID
 	 */
 	public Integer getAuthorID() {
@@ -70,6 +82,28 @@ public class Author
 	 */
 	public void setAuthorName(StringBuffer authorName) {
 		this.authorName = authorName;
+	}
+	
+	/**
+	 * add a book by this author
+	 * @param book
+	 */
+	public void addBook(Book book)
+	{
+		books.add(book);
+	}
+	
+	/**
+	 * @return the books
+	 */
+	public List<Book> getBooks() {
+		return books;
+	}
+	/**
+	 * @param books the books to set
+	 */
+	public void setBooks(List<Book> books) {
+		this.books = books;
 	}
 	/**
 	 * 

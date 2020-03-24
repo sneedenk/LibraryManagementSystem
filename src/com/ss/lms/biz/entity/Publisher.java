@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ss.lms.biz;
+package com.ss.lms.biz.entity;
 
 /**
  * @author Kyle Sneeden
@@ -13,16 +13,18 @@ public class Publisher
 	private Integer publisherID;
 	private StringBuffer publisherName;
 	private StringBuffer address;
+	private StringBuffer phoneNumber;
 
 	/**
 	 * general use constructor
 	 * @param publisherName
 	 * @param address
 	 */
-	public Publisher(StringBuffer publisherName, StringBuffer address) 
+	public Publisher(StringBuffer publisherName, StringBuffer address, StringBuffer phoneNumber) 
 	{
 		this.publisherName = publisherName;
 		this.address = address;
+		this.phoneNumber = phoneNumber;
 		this.publisherID = getUniquePublisherID();
 	}
 	/**
@@ -31,11 +33,12 @@ public class Publisher
 	 * @param publisherName
 	 * @param address
 	 */
-	public Publisher(Integer publisherID, StringBuffer publisherName, StringBuffer address) 
+	public Publisher(Integer publisherID, StringBuffer publisherName) 
 	{
 		this.publisherID = publisherID;
 		this.publisherName = publisherName;
-		this.address = address;
+		this.address = null;
+		this.phoneNumber = null;
 	}
 	
 	/**
@@ -87,11 +90,23 @@ public class Publisher
 		this.address = address;
 	}
 	/**
+	 * @return the phoneNumber
+	 */
+	public StringBuffer getPhoneNumber() {
+		return phoneNumber;
+	}
+	/**
+	 * @param phoneNumber the phoneNumber to set
+	 */
+	public void setPhoneNumber(StringBuffer phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	/**
 	 * 
 	 * @return StringBuffer representation of Publisher data
 	 */
 	public StringBuffer toStringBuffer() {
-		return new StringBuffer().append(publisherID).append('|').append(publisherName).append('|').append(address);
+		return new StringBuffer().append(publisherID).append('|').append(publisherName).append('|').append(address).append('|').append(phoneNumber);
 	}
 	@Override
 	public int hashCode() {
